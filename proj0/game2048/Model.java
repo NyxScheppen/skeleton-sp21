@@ -5,7 +5,7 @@ import java.util.Observable;
 
 
 /** The state of a game of 2048.
- *  @author TODO: YOUR NAME HERE
+ *  @author nyx
  */
 public class Model extends Observable {
     /** Current contents of the board. */
@@ -107,20 +107,70 @@ public class Model extends Observable {
      *    and the trailing tile does not.
      * */
     public boolean tilt(Side side) {
-        boolean changed;
-        changed = false;
-
-        // TODO: Modify this.board (and perhaps this.score) to account
-        // for the tilt to the Side SIDE. If the board changed, set the
-        // changed local variable to true.
-
+        boolean changed = false;
         checkGameOver();
-        if (changed) {
-            setChanged();
+        if(side == Side.NORTH){
+            for(int i = 0;i < board.size();i++){
+                 int[] m = helper(board,i);
+                 score += m[0];
+                 if(m[1] == 1){
+                    changed = true;
+                }
+            }
+            return changed;
         }
-        return changed;
+        else{
+            board.setViewingPerspective(side);
+            changed = tilt(Side.NORTH);
+            if (changed) {
+                setChanged();
+            }
+            board.setViewingPerspective(Side.NORTH);
+            return changed;
+        }
     }
-
+    public int[] helper(Board b,int i){
+        int x = 0;
+        int m = 0;
+        // 当前上面那个数
+        int y = 0;
+        int[] score = {0,0};
+        for(int j = 3;j >= 0;j -= 1){
+            Tile t = b.tile(i,j);
+            if(t == null){
+                x += 1;
+            }
+            else{
+                // 第一个数且不是第一个
+                if(y == 0 && x != 0) {
+                    b.move(i,3,t);
+                    y = t.value();
+                    score[1] = 1;
+                    m = 2;
+                }
+                // 第一个就有数
+                else if(y == 0 && x == 0){
+                    y = t.value();
+                    m = 2;
+                }
+                // 上面有数,且上面的数与自身相等
+                else if(y == t.value()){
+                    b.move(i,m+1,t);
+                    score[0] += 2*y;
+                    score[1] = 1;
+                    y = 1;
+                }
+                // 上面有数且与自身不相等
+                else {
+                    b.move(i,m,t);
+                    score[1] = 1;
+                    m -= 1;
+                    y = t.value();
+                }
+            }
+        }
+        return score;
+    }
     /** Checks if the game is over and sets the gameOver variable
      *  appropriately.
      */
@@ -137,8 +187,15 @@ public class Model extends Observable {
      *  Empty spaces are stored as null.
      * */
     public static boolean emptySpaceExists(Board b) {
-        // TODO: Fill in this function.
-        return false;
+        boolean x = false;
+        for(int i = 0;i < b.size();i += 1){
+            for(int j = 0;j < b.size();j += 1){
+                if(b.tile(i,j) == null){
+                    x = true;
+                }
+            }
+        }
+        return x;
     }
 
     /**
@@ -147,10 +204,18 @@ public class Model extends Observable {
      * given a Tile object t, we get its value with t.value().
      */
     public static boolean maxTileExists(Board b) {
-        // TODO: Fill in this function.
-        return false;
+        boolean x = false;
+        for(int i = 0;i < b.size();i += 1){
+            for(int j = 0;j < b.size();j += 1){
+                if(b.tile(i,j) != null){
+                    if(b.tile(i,j).value() == MAX_PIECE){
+                        x = true;
+                    }
+                }
+            }
+        }
+        return x;
     }
-
     /**
      * Returns true if there are any valid moves on the board.
      * There are two ways that there can be valid moves:
@@ -158,10 +223,36 @@ public class Model extends Observable {
      * 2. There are two adjacent tiles with the same value.
      */
     public static boolean atLeastOneMoveExists(Board b) {
-        // TODO: Fill in this function.
-        return false;
+        boolean x = false;
+        if(emptySpaceExists(b))
+        {
+            x = true;
+        }
+        else
+        {
+            for (int i = 0; i < b.size(); i += 1)
+            {
+                for (int j = 0; j < b.size() - 1; j += 1)
+                {
+                    if (b.tile(i, j).value() == b.tile(i, j + 1).value())
+                    {
+                        x = true;
+                    }
+                }
+            }
+            for (int i = 0; i < b.size()-1; i += 1)
+            {
+                for (int j = 0; j < b.size(); j += 1)
+                {
+                    if (b.tile(i, j).value() == b.tile(i+1, j).value())
+                    {
+                        x = true;
+                    }
+                }
+            }
+        }
+        return x;
     }
-
 
     @Override
      /** Returns the model as a string, used for debugging. */
