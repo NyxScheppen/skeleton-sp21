@@ -147,8 +147,8 @@ public class ArrayDeque<T> {
             c.addFirst(5-i);
             c.addFirst(i);
         }
-        int x = c.get(0);
+        int y = c.get(14);
         c.printDeque();
-        System.out.println(x);
+        System.out.println(y);
     }
 }
