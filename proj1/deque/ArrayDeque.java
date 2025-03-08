@@ -131,9 +131,9 @@ public class ArrayDeque<T> {
             return null;
         }
         if(first + index >= max){
-            return array[first + 1 + index - max - 1];
+            return array[first + 1 + index - max];
         }
-        return array[first + 1 + index - 1];
+        return array[first + 1 + index];
     }
 
     // unique method
@@ -147,8 +147,8 @@ public class ArrayDeque<T> {
             c.addFirst(5-i);
             c.addFirst(i);
         }
-        int x = c.get(10);
+        int x = c.get(0);
         c.printDeque();
-        System.out.println(c.size());
+        System.out.println(x);
     }
 }
