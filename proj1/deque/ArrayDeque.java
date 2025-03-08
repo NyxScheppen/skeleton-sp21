@@ -30,10 +30,10 @@ public class ArrayDeque<T> {
 
     public ArrayDeque(){
         size = 0;
-        max = 8;
+        max = 9;
         first = 0;
         last = 1;
-        array = (T[]) new Object[8];
+        array = (T[]) new Object[9];
     }
     public void addFirst(T item){
         if(size > max-1) {
