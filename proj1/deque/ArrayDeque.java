@@ -144,10 +144,11 @@ public class ArrayDeque<T> {
         ArrayDeque<Integer> c = new ArrayDeque<>();
         for(int i = 0;i < 5;i++){
             c.addFirst(i);
-            c.addLast(5-i);
+            c.addFirst(5-i);
+            c.addFirst(i);
         }
         int x = c.get(10);
-        System.out.println(x);
+        c.printDeque();
         System.out.println(c.size());
     }
 }
