@@ -2,7 +2,7 @@ package deque;
 
 import java.util.Iterator;
 
-public class LinkedListDeque<T> implements Deque<T>{
+public class LinkedListDeque<T> implements Deque<T>,Iterable<T>{
     private int size;
 
     // anyway,here is the class that can generate the node
@@ -91,7 +91,7 @@ public class LinkedListDeque<T> implements Deque<T>{
             return null;
         }
         node m = sentinal.next;
-        for(int i = 1;i < index;i++){
+        for(int i = 1;i < index - 1;i++){
             m = m.next;
         }
         return m.item;
@@ -118,7 +118,7 @@ public class LinkedListDeque<T> implements Deque<T>{
     public Iterator<T> iterator(){
         return new LinkedListDequeIterator();
     }
-    
+
     public T getRecursive(int index) {
         return getRecursive(index,sentinal.next);
     }
@@ -134,13 +134,20 @@ public class LinkedListDeque<T> implements Deque<T>{
         }
     }
 
-    public boolean equals(Object o){
-        if(!(o instanceof LinkedListDeque) || ((LinkedListDeque<?>) o).size() != size){
-            return false;
+    public boolean equals(Object other) { //默认实现仅仅比较引用是否相等
+        if(this == other){
+            return true;
         }
-        for(int i = 0;i < size;i += 1){
-            if(((LinkedListDeque<?>) o).get(i) != get(i)){
+        if (other instanceof LinkedListDeque<?> otherList) { //检查类型相同
+            if(this.size!=otherList.size){
                 return false;
+            }
+            int i=0;
+            for(T item:this){
+                if(!item.equals(otherList.get(i))){
+                    return false;
+                }
+                i++;
             }
         }
         return true;

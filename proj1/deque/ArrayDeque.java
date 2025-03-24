@@ -116,7 +116,7 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         return x;
     }
     public T get(int index){
-        if(index > size || size == 0){
+        if(index >= size || size == 0 || index < 0){
             return null;
         }
         return array[(first+index) % array.length];
@@ -146,13 +146,20 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
             return item;
         }
     }
-    public boolean equals(Object o){
-        if(!(o instanceof ArrayDeque) || ((ArrayDeque<?>) o).size() != size){
-            return false;
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
         }
-        for(int i = 0;i < size;i += 1){
-            if((((ArrayDeque<?>) o).get(i) != get(i))){
+        if (o instanceof ArrayDeque<?>) { //检查类型相同
+            if (this.size != ((ArrayDeque<?>) o).size()) {
                 return false;
+            }
+            int i = 0;
+            for (T item : this) {
+                if (!item.equals(((ArrayDeque<?>) o).get(i))) {
+                    return false;
+                }
+                i++;
             }
         }
         return true;
