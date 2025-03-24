@@ -103,7 +103,7 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         size -= 1;
         last -= 1;
         if(last == -1){
-            last = max - 1;
+            last = size - 1;
         }
         T x = array[last];
         if(size < (double)max/4){

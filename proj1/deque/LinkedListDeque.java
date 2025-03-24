@@ -134,11 +134,11 @@ public class LinkedListDeque<T> implements Deque<T>,Iterable<T>{
         }
     }
 
-    public boolean equals(Object other) { //默认实现仅仅比较引用是否相等
-        if(this == other){
+    public boolean equals(Object o) { //默认实现仅仅比较引用是否相等
+        if(this == o){
             return true;
         }
-        if (other instanceof LinkedListDeque<?> otherList) { //检查类型相同
+        if (o instanceof LinkedListDeque<?> otherList) { //检查类型相同
             if(this.size!=otherList.size){
                 return false;
             }
