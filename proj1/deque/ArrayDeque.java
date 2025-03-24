@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import static java.lang.System.arraycopy;
 
-public class ArrayDeque<T> implements Deque<T>{
+public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
 
     private int size;
     private T[] array;
@@ -138,7 +138,7 @@ public class ArrayDeque<T> implements Deque<T>{
     private class ArrayDequeIterator implements Iterator<T> {
         private int index;
 
-        ArrayDequeIterator() {
+        public ArrayDequeIterator() {
             index = 0;
         }
 

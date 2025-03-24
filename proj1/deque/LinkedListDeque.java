@@ -2,7 +2,7 @@ package deque;
 
 import java.util.Iterator;
 
-public class LinkedListDeque<T> implements Deque<T> {
+public class LinkedListDeque<T> implements Deque<T>,Iterable<T>{
     private int size;
 
     // anyway,here is the class that can generate the node
@@ -99,19 +99,17 @@ public class LinkedListDeque<T> implements Deque<T> {
         return m.item;
     }
 
-    private class LinkedListDequeIterator implements Iterator<T> {
+    private class LinkedListDequeIterator implements Iterator<T>{
         private int index;
 
-        LinkedListDequeIterator() {
+        public LinkedListDequeIterator() {
             index = 0;
         }
 
-        @Override
         public boolean hasNext() {
             return index < size;
         }
 
-        @Override
         public T next() {
             T item = get(index);
             index += 1;
