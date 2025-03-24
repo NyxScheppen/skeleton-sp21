@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import static java.lang.System.arraycopy;
 
-public class ArrayDeque<T> {
+public class ArrayDeque<T> implements Deque<T>{
 
     private int size;
     private T[] array;
@@ -41,7 +41,7 @@ public class ArrayDeque<T> {
             max += 1;
             resize();
             first = max-1;
-            last = size;
+        last = size;
         }
         if(first < 0){
             first = max-1;
@@ -64,12 +64,6 @@ public class ArrayDeque<T> {
         array[last] = item;
         last += 1;
         size += 1;
-    }
-    public boolean isEmpty(){
-        if(size == 0){
-            return true;
-        }
-        return false;
     }
     public int size(){
         return size;

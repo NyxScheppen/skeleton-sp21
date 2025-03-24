@@ -2,7 +2,7 @@ package deque;
 
 import java.util.Iterator;
 
-public class LinkedListDeque<T> {
+public class LinkedListDeque<T> implements Deque<T> {
     private int size;
 
     // anyway,here is the class that can generate the node
@@ -48,13 +48,6 @@ public class LinkedListDeque<T> {
         n.front.next = n;
         sentinal.front = n;
         n.next = sentinal;
-    }
-
-    public boolean isEmpty(){
-        if(size == 0){
-            return true;
-        }
-        return false;
     }
 
     public int size(){
