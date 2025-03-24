@@ -17,7 +17,7 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         size = 0;
         max = 8;
         first = 0;
-        last = 1;
+        last = 0;
         array = (T[]) new Object[8];
     }
 
@@ -81,18 +81,18 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         if(size == 0){
             return null;
         }
+        T x = array[first];
         size -= 1;
         first += 1;
         if(first == max){
             first = 0;
         }
-        T x = array[first];
         if(size < (double)max/4){
             max /= 4;
             max += 1;
             resize();
             last = size - 1;
-            first = max - 1;
+            first = 0;
         }
         return x;
     }
@@ -100,12 +100,12 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         if(size == 0){
             return null;
         }
+        T x = array[last];
         size -= 1;
         last -= 1;
         if(last == -1){
             last = size - 1;
         }
-        T x = array[last];
         if(size < (double)max/4){
             max /= 4;
             max += 1;
@@ -119,7 +119,7 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         if(index > size || size == 0 || index < 0){
             return null;
         }
-        return array[(first+index) % array.length];
+        return array[(first+index + 1) % array.length];
     }
 
     // unique method
