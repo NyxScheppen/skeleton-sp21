@@ -81,11 +81,15 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         if(size == 0){
             return null;
         }
-        T x = array[first];
         size -= 1;
         first += 1;
+        T x;
         if(first == max){
             first = 0;
+             x = array[max-1];
+        }
+        else{
+             x = array[first];
         }
         if(size < (double)max/4){
             max /= 4;
@@ -100,11 +104,15 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         if(size == 0){
             return null;
         }
-        T x = array[last];
         size -= 1;
         last -= 1;
+        T x;
         if(last == -1){
             last = size - 1;
+             x = array[0];
+        }
+        else{
+             x = array[last];
         }
         if(size < (double)max/4){
             max /= 4;
@@ -119,7 +127,7 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         if(index > size || size == 0 || index < 0){
             return null;
         }
-        return array[(first+index + 1) % array.length];
+        return array[(first + index) % (max-1)];
     }
 
     // unique method
@@ -150,13 +158,13 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         if (this == o) {
             return true;
         }
-        if (o instanceof ArrayDeque<?>) {
-            if (this.size != ((ArrayDeque<?>) o).size()) {
+        if (o instanceof Deque<?>) {
+            if (this.size != ((Deque<?>) o).size()) {
                 return false;
             }
             int i = 0;
             for (T item : this) {
-                if (!item.equals(((ArrayDeque<?>) o).get(i))) {
+                if (!item.equals(((Deque<?>) o).get(i))) {
                     return false;
                 }
                 i++;
