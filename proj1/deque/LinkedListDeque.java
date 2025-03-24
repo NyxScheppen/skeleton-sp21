@@ -99,23 +99,39 @@ public class LinkedListDeque<T> implements Deque<T> {
         return m.item;
     }
 
+    private class LinkedListDequeIterator implements Iterator<T> {
+        private int index;
+
+        LinkedListDequeIterator() {
+            index = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return index < size;
+        }
+
+        @Override
+        public T next() {
+            T item = get(index);
+            index += 1;
+            return item;
+        }
+    }
     // unique method
     public Iterator<T> iterator(){
-        return null;
+        return new LinkedListDequeIterator();
     }
 
-    public static void main(String[] args){
-        LinkedListDeque<Integer> c = new LinkedListDeque<>();
-        c.addFirst(1);
-        c.addFirst(2);
-        c.addFirst(3);
-        c.addLast(4);
-        c.addLast(5);
-        int x = c.get(5);
-        int y = c.get(1);
-        System.out.println(x);
-        System.out.println(y);
-        c.printDeque();
-        System.out.println(c.size());
+    public boolean equals(Object o){
+        if(!(o instanceof LinkedListDeque) || ((LinkedListDeque<?>) o).size() != size){
+            return false;
+        }
+        for(int i = 0;i < size;i += 1){
+            if(((LinkedListDeque<?>) o).get(i) != get(i)){
+                return false;
+            }
+        }
+        return true;
     }
 }

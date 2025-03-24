@@ -30,10 +30,10 @@ public class ArrayDeque<T> implements Deque<T>{
 
     public ArrayDeque(){
         size = 0;
-        max = 9;
+        max = 8;
         first = 0;
         last = 1;
-        array = (T[]) new Object[9];
+        array = (T[]) new Object[8];
     }
     public void addFirst(T item){
         if(size > max-1) {
@@ -132,17 +132,37 @@ public class ArrayDeque<T> implements Deque<T>{
 
     // unique method
     public Iterator<T> iterator(){
-        return null;
+        return new ArrayDequeIterator();
     }
-    public static void main(String[] args){
-        ArrayDeque<Integer> c = new ArrayDeque<>();
-        for(int i = 0;i < 5;i++){
-            c.addFirst(i);
-            c.addFirst(5-i);
-            c.addFirst(i);
+
+    private class ArrayDequeIterator implements Iterator<T> {
+        private int index;
+
+        ArrayDequeIterator() {
+            index = 0;
         }
-        int y = c.get(14);
-        c.printDeque();
-        System.out.println(y);
+
+        @Override
+        public boolean hasNext() {
+            return index < size;
+        }
+
+        @Override
+        public T next() {
+            T item = get(index);
+            index += 1;
+            return item;
+        }
+    }
+    public boolean equals(Object o){
+        if(!(o instanceof ArrayDeque) || ((ArrayDeque<?>) o).size() != size){
+            return false;
+        }
+        for(int i = 0;i < size;i += 1){
+            if(((ArrayDeque<?>) o).get(i) != get(i)){
+                return false;
+            }
+        }
+        return true;
     }
 }
