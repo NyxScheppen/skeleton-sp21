@@ -13,6 +13,14 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
     // general method
     // magical
 
+    public ArrayDeque(){
+        size = 0;
+        max = 8;
+        first = 0;
+        last = 1;
+        array = (T[]) new Object[8];
+    }
+
     private void resize() {
         T[] a = (T[]) new Object[max];
         int x = first + 1;
@@ -26,13 +34,7 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         array = a;
     }
 
-    public ArrayDeque(){
-        size = 0;
-        max = 8;
-        first = 0;
-        last = 1;
-        array = (T[]) new Object[8];
-    }
+
     public void addFirst(T item){
         if(size > max-1) {
             max *= 4;
@@ -117,15 +119,10 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         return x;
     }
     public T get(int index){
-        if(index > size){
-            return null;
-        } else if (size == 0) {
+        if(index > size || size == 0){
             return null;
         }
-        if(first + index >= max){
-            return array[first + 1 + index - max];
-        }
-        return array[first + 1 + index];
+        return array[(first+index) % array.length];
     }
 
     // unique method
@@ -147,6 +144,9 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
 
         @Override
         public T next() {
+            if(!hasNext()){
+                index = 0;
+            }
             T item = get(index);
             index += 1;
             return item;

@@ -2,7 +2,7 @@ package deque;
 
 import java.util.Iterator;
 
-public class LinkedListDeque<T> implements Deque<T>,Iterable<T>{
+public class LinkedListDeque<T> implements Deque<T>{
     private int size;
 
     // anyway,here is the class that can generate the node
@@ -31,7 +31,7 @@ public class LinkedListDeque<T> implements Deque<T>,Iterable<T>{
     }
 
     // const time
-
+    @Override
     public void addFirst(T item){
         size += 1;
         node n = new node(item);
@@ -40,7 +40,7 @@ public class LinkedListDeque<T> implements Deque<T>,Iterable<T>{
         sentinal.next = n;
         n.front = sentinal;
     }
-
+    @Override
     public void addLast(T item){
         size += 1;
         node n = new node(item);
@@ -49,11 +49,11 @@ public class LinkedListDeque<T> implements Deque<T>,Iterable<T>{
         sentinal.front = n;
         n.next = sentinal;
     }
-
+    @Override
     public int size(){
         return size;
     }
-
+    @Override
     public void printDeque(){
         node m = sentinal.next;
         while(m!= sentinal){
@@ -63,7 +63,7 @@ public class LinkedListDeque<T> implements Deque<T>,Iterable<T>{
     }
 
     // const time
-
+    @Override
     public T removeFirst(){
         if(size == 0){
             return null;
@@ -74,7 +74,7 @@ public class LinkedListDeque<T> implements Deque<T>,Iterable<T>{
         sentinal.next = sentinal.next.next;
         return x;
     }
-
+    @Override
     public T removeLast(){
         if(size == 0){
             return null;
@@ -85,11 +85,9 @@ public class LinkedListDeque<T> implements Deque<T>,Iterable<T>{
         sentinal.front = sentinal.front.front;
         return x;
     }
-
+    @Override
     public T get(int index){
-        if(size == 0){
-            return null;
-        } else if (index > size) {
+        if(size == 0||index > size){
             return null;
         }
         node m = sentinal.next;
@@ -102,7 +100,7 @@ public class LinkedListDeque<T> implements Deque<T>,Iterable<T>{
     private class LinkedListDequeIterator implements Iterator<T>{
         private int index;
 
-        public LinkedListDequeIterator() {
+        public LinkedListDequeIterator(){
             index = 0;
         }
 
@@ -111,6 +109,9 @@ public class LinkedListDeque<T> implements Deque<T>,Iterable<T>{
         }
 
         public T next() {
+            if(!hasNext()){
+                index = 0;
+            }
             T item = get(index);
             index += 1;
             return item;
