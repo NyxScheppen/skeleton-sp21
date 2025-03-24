@@ -81,7 +81,6 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         if(size == 0){
             return null;
         }
-        size -= 1;
         first += 1;
         T x;
         if(first == max){
@@ -95,20 +94,20 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
             max /= 4;
             max += 1;
             resize();
-            last = size - 1;
+            last = size + 1;
             first = 0;
         }
+        size -= 1;
         return x;
     }
     public T removeLast(){
         if(size == 0){
             return null;
         }
-        size -= 1;
         last -= 1;
         T x;
         if(last == -1){
-            last = size - 1;
+            last = max - 1;
              x = array[0];
         }
         else{
@@ -118,9 +117,10 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
             max /= 4;
             max += 1;
             resize();
-            last = size - 1;
+            last = size;
             first = max - 1;
         }
+        size -= 1;
         return x;
     }
     public T get(int index){
