@@ -24,7 +24,7 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
     private void resize() {
         T[] newItems = (T[]) new Object[max];
         for (int i = 0; i < size; i++) {
-            newItems[i] = array[(first + i) % array.length];  // 正确处理环形索引
+            newItems[i] = array[(first + i) % array.length];
         }
         first = 0;
         last = size;
@@ -116,7 +116,7 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         return x;
     }
     public T get(int index){
-        if(index >= size || size == 0 || index < 0){
+        if(index > size || size == 0 || index < 0){
             return null;
         }
         return array[(first+index) % array.length];
@@ -150,7 +150,7 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         if (this == o) {
             return true;
         }
-        if (o instanceof ArrayDeque<?>) { //检查类型相同
+        if (o instanceof ArrayDeque<?>) {
             if (this.size != ((ArrayDeque<?>) o).size()) {
                 return false;
             }
@@ -161,7 +161,8 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
                 }
                 i++;
             }
+            return true;
         }
-        return true;
+        return false;
     }
 }
