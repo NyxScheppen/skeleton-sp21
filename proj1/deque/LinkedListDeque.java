@@ -109,9 +109,6 @@ public class LinkedListDeque<T> implements Deque<T>{
         }
 
         public T next() {
-            if(!hasNext()){
-                index = 0;
-            }
             T item = get(index);
             index += 1;
             return item;
@@ -120,6 +117,21 @@ public class LinkedListDeque<T> implements Deque<T>{
     // unique method
     public Iterator<T> iterator(){
         return new LinkedListDequeIterator();
+    }
+    
+    public T getRecursive(int index) {
+        return getRecursive(index,sentinal.next);
+    }
+
+    private T getRecursive(int index, node p){
+        if(index < 0 || index >= this.size){
+            return null;
+        }
+        if(index == 0){
+            return p.item;
+        }else{
+            return getRecursive(index-1,p.next);
+        }
     }
 
     public boolean equals(Object o){
