@@ -1,10 +1,6 @@
 package deque;
 
-import edu.princeton.cs.algs4.StdRandom;
-
 import java.util.Iterator;
-
-import static org.junit.Assert.assertEquals;
 
 public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
 
@@ -50,7 +46,6 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         if(first < 0){
             first = max-1;
         }
-
     }
     public void addLast(T item){
         size += 1;
@@ -101,11 +96,8 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         T x;
         if(first == max){
             first = 0;
-            x = array[0];
         }
-        else{
-            x = array[first];
-        }
+        x = array[first];
         size -= 1;
         return x;
     }
@@ -113,7 +105,6 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         if(size == 0){
             return null;
         }
-
         if(size < (double)max/4){
             resize(max / 4 + 1);
             max /= 4;
@@ -125,11 +116,8 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         T x;
         if(last == -1){
             last = max - 1;
-            x = array[0];
         }
-        else{
-            x = array[last];
-        }
+        x = array[last];
         size -= 1;
         return x;
     }
