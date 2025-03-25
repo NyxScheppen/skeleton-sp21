@@ -1,6 +1,10 @@
 package deque;
 
+import edu.princeton.cs.algs4.StdRandom;
+
 import java.util.Iterator;
+
+import static org.junit.Assert.assertEquals;
 
 public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
 
@@ -10,7 +14,6 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
     private int first;
     private int last;
 
-    // general method
     // magical
 
     public ArrayDeque(){
@@ -21,47 +24,51 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         array = (T[]) new Object[8];
     }
 
-    private void resize() {
-        T[] newItems = (T[]) new Object[max];
+    private void resize(int m) {
+        T[] newItems = (T[]) new Object[m];
         for (int i = 0; i < size; i++) {
-            newItems[i] = array[(first + i) % array.length];
+            newItems[i] = get(i);
         }
-        first = 0;
-        last = size;
         array = newItems;
     }
 
 
     public void addFirst(T item){
+        size += 1;
         if(size > max-1) {
+            resize(max * 4 + 1);
             max *= 4;
             max += 1;
-            resize();
             first = max-1;
-        last = size;
+            last = size;
         }
-        if(first < 0){
-            first = max-1;
+        if(last == first){
+            last += 1;
         }
         array[first] = item;
         first -= 1;
-        size += 1;
+        if(first < 0){
+            first = max-1;
+        }
+
     }
     public void addLast(T item){
         size += 1;
         if(size > max-1){
+            resize(max * 4 + 1);
             max *= 4;
             max += 1;
-            resize();
             last = size;
             first = max - 1;
         }
-        if(last == max-1){
-            last = 0;
+        if(last == first){
+            first = max - 1;
         }
         array[last] = item;
         last += 1;
-
+        if(last == max){
+            last = 0;
+        }
     }
     public int size(){
         return size;
@@ -86,16 +93,16 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         T x;
         if(first == max){
             first = 0;
-             x = array[max-1];
+             x = array[0];
         }
         else{
              x = array[first];
         }
         if(size < (double)max/4){
+            resize( max / 4 + 1);
             max /= 4;
             max += 1;
-            resize();
-            last = size + 1;
+            last = size;
             first = 0;
         }
         size -= 1;
@@ -115,10 +122,10 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
              x = array[last];
         }
         if(size < (double)max/4){
+            resize(max / 4 + 1);
             max /= 4;
             max += 1;
-            resize();
-            last = size;
+            last = size - 1;
             first = max - 1;
         }
         size -= 1;
@@ -128,12 +135,38 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         if(index > size || size == 0 || index < 0){
             return null;
         }
-        return array[(first + index + 1) % (max)];
+        return array[(first + index + 1) % max];
     }
 
     // unique method
     public Iterator<T> iterator(){
         return new ArrayDequeIterator();
+    }
+
+    public static void main(String[] args) {
+        ArrayDeque<Integer> M = new ArrayDeque<>();
+        for (int i = 0; i < 100; i += 1) {
+            int operationNumber;
+            if (M.size() > 0) {
+                operationNumber = StdRandom.uniform(0, 5);
+            } else {
+                operationNumber = 0;
+            }
+            if (operationNumber == 0) {
+                // addLast
+                int randVal = StdRandom.uniform(0, 100);
+                M.addLast(randVal);
+            } else if (operationNumber == 1) {
+                System.out.println(M.size());
+            } else if (operationNumber == 2) {
+                //removeLast
+                int m = M.removeLast();
+            } else if (operationNumber == 3) {
+                System.out.println(M.get(M.size() - 1));
+            } else if (operationNumber == 4) {
+                M.removeFirst();
+            }
+        }
     }
 
     private class ArrayDequeIterator implements Iterator<T> {
@@ -175,3 +208,4 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         return false;
     }
 }
+
