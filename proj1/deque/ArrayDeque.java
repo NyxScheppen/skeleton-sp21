@@ -48,6 +48,7 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         size += 1;
     }
     public void addLast(T item){
+        size += 1;
         if(size > max-1){
             max *= 4;
             max += 1;
@@ -60,7 +61,7 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         }
         array[last] = item;
         last += 1;
-        size += 1;
+
     }
     public int size(){
         return size;
@@ -127,7 +128,7 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         if(index > size || size == 0 || index < 0){
             return null;
         }
-        return array[(first + index) % (max-1)];
+        return array[(first + index + 1) % (max)];
     }
 
     // unique method
