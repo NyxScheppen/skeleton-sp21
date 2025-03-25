@@ -44,7 +44,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         array[first] = item;
         first -= 1;
         if (first < 0) {
-            first = max-1;
+            first = max - 1;
         }
     }
     public void addLast(T item) {
@@ -72,7 +72,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         int x = first + 1;
         for (int i = 0; i < size; i++) {
             if (array[x] != null) {
-                System.out.print(array[x]+"\n");
+                System.out.print(array[x] + "\n");
             }
             x += 1;
             if (x == max) {
@@ -86,7 +86,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         }
 
         if (size < (double) max / 4) {
-            resize( max / 4 + 1);
+            resize(max / 4 + 1);
             max /= 4;
             max += 1;
             last = size;
@@ -101,7 +101,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         size -= 1;
         return x;
     }
-    public T removeLast(){
+    public T removeLast() {
         if (size == 0) {
             return null;
         }
@@ -123,7 +123,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     @Override
-    public T get(int index){
+    public T get(int index) {
         if (index > size || size == 0 || index < 0) {
             return null;
         }

@@ -4,7 +4,7 @@ import deque.Deque;
 import deque.LinkedListDeque;
 
 //Note: This file will not compile until you complete the Deque implementations
-public class GuitarString{
+public class GuitarString {
     /** Constants. Do not change. In case you're curious, the keyword final
      * means the values cannot be changed at runtime. We'll discuss this and
      * other topics in lecture on Friday. */
@@ -17,7 +17,7 @@ public class GuitarString{
     /* Create a guitar string of the given frequency.  */
     public GuitarString(double frequency) {
         buffer =  new LinkedListDeque<>();
-        int cplty = (int)Math.round(SR/frequency);
+        int cplty = (int) Math.round(SR / frequency);
         for (int i = 0; i < cplty; i += 1) {
             buffer.addFirst(0.0);
         }
@@ -27,7 +27,7 @@ public class GuitarString{
     /* Pluck the guitar string by replacing the buffer with white noise. */
     public void pluck() {
         int size = buffer.size();
-        for (int i = 0; i < size; i += 1){
+        for (int i = 0; i < size; i += 1) {
             buffer.removeFirst();
             buffer.addFirst(Math.random() - 0.5);
         }
