@@ -89,21 +89,22 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         if(size == 0){
             return null;
         }
-        first += 1;
-        T x;
-        if(first == max){
-            first = 0;
-             x = array[0];
-        }
-        else{
-             x = array[first];
-        }
+
         if(size < (double)max/4){
             resize( max / 4 + 1);
             max /= 4;
             max += 1;
             last = size;
+            first = max - 1;
+        }
+        first += 1;
+        T x;
+        if(first == max){
             first = 0;
+            x = array[0];
+        }
+        else{
+            x = array[first];
         }
         size -= 1;
         return x;
@@ -112,21 +113,22 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         if(size == 0){
             return null;
         }
-        last -= 1;
-        T x;
-        if(last == -1){
-            last = max - 1;
-             x = array[0];
-        }
-        else{
-             x = array[last];
-        }
+
         if(size < (double)max/4){
             resize(max / 4 + 1);
             max /= 4;
             max += 1;
-            last = size - 1;
+            last = size;
             first = max - 1;
+        }
+        last -= 1;
+        T x;
+        if(last == -1){
+            last = max - 1;
+            x = array[0];
+        }
+        else{
+            x = array[last];
         }
         size -= 1;
         return x;

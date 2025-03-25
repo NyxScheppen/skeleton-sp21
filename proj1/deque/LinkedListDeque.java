@@ -92,7 +92,7 @@ public class LinkedListDeque<T> implements Deque<T>,Iterable<T> {
 
     @Override
     public T get(int index) {
-        if (size == 0 || index > size) {
+        if (size == 0 || index > size || index < 0) {
             return null;
         }
         node m = sentinal.next;
