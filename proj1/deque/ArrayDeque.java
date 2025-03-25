@@ -39,8 +39,8 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
             resize(max * 4 + 1);
             max *= 4;
             max += 1;
-            first = max-1;
-            last = size;
+            first = max - 1;
+            last = size - 1;
         }
         if(last == first){
             last += 1;
@@ -58,7 +58,7 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
             resize(max * 4 + 1);
             max *= 4;
             max += 1;
-            last = size;
+            last = size - 1;
             first = max - 1;
         }
         if(last == first){
@@ -142,33 +142,6 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
     public Iterator<T> iterator(){
         return new ArrayDequeIterator();
     }
-
-    private static void main(String[] args) {
-        ArrayDeque<Integer> M = new ArrayDeque<>();
-        for (int i = 0; i < 100; i += 1) {
-            int operationNumber;
-            if (M.size() > 0) {
-                operationNumber = StdRandom.uniform(0, 5);
-            } else {
-                operationNumber = 0;
-            }
-            if (operationNumber == 0) {
-                // addLast
-                int randVal = StdRandom.uniform(0, 100);
-                M.addLast(randVal);
-            } else if (operationNumber == 1) {
-                System.out.println(M.size());
-            } else if (operationNumber == 2) {
-                //removeLast
-                int m = M.removeLast();
-            } else if (operationNumber == 3) {
-                System.out.println(M.get(M.size() - 1));
-            } else if (operationNumber == 4) {
-                M.removeFirst();
-            }
-        }
-    }
-
     private class ArrayDequeIterator implements Iterator<T> {
         private int index;
 

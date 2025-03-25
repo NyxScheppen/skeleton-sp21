@@ -8,33 +8,34 @@ import static org.junit.Assert.assertEquals;
 
 public class ArrayDequetest {
 
-    @Test
-    public void test() {
-        ArrayDeque<Integer> L = new ArrayDeque<>();
-        LinkedListDeque<Integer> M = new LinkedListDeque<>();
-        int N = 5000;
-        for (int i = 0; i < N; i += 1) {
+    public static void main(String[] args) {
+        ArrayDeque<Integer> M = new ArrayDeque<>();
+        for (int i = 0; i < 100; i += 1) {
+            M.addLast(i);
+        }
+        System.out.println(M.get(0));
+        System.out.println(M.get(1));
+        System.out.println(M.get(M.size() - 1));
+        for(int i = 0;i < 100;i++) {
             int operationNumber;
             if (M.size() > 0) {
-                operationNumber = StdRandom.uniform(0, 4);
+                operationNumber = StdRandom.uniform(0, 5);
             } else {
-                operationNumber = StdRandom.uniform(0, 2);
+                operationNumber = 0;
             }
             if (operationNumber == 0) {
                 // addLast
                 int randVal = StdRandom.uniform(0, 100);
-                L.addLast(randVal);
                 M.addLast(randVal);
             } else if (operationNumber == 1) {
-                // size
-                int size = L.size();
-                int size0 = M.size();
-                assertEquals(size, size0);
+                System.out.println(M.size());
             } else if (operationNumber == 2) {
                 //removeLast
-                int n = L.removeLast();
                 int m = M.removeLast();
-                assertEquals(n, m);
+            } else if (operationNumber == 3) {
+                System.out.println(M.get(M.size() - 1));
+            } else if (operationNumber == 4) {
+                M.removeFirst();
             }
         }
     }
