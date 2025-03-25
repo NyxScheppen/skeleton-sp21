@@ -143,7 +143,7 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         return new ArrayDequeIterator();
     }
 
-    public static void main(String[] args) {
+    private static void main(String[] args) {
         ArrayDeque<Integer> M = new ArrayDeque<>();
         for (int i = 0; i < 100; i += 1) {
             int operationNumber;
