@@ -121,6 +121,8 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         size -= 1;
         return x;
     }
+
+    @Override
     public T get(int index){
         if(index > size || size == 0 || index < 0){
             return null;
