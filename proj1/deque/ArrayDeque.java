@@ -2,7 +2,7 @@ package deque;
 
 import java.util.Iterator;
 
-public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
+public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     private int size;
     private T[] array;
@@ -12,7 +12,7 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
 
     // magical
 
-    public ArrayDeque(){
+    public ArrayDeque() {
         size = 0;
         max = 8;
         first = 0;
@@ -29,63 +29,63 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
     }
 
 
-    public void addFirst(T item){
+    public void addFirst(T item) {
         size += 1;
-        if(size > max-1) {
+        if (size > max - 1) {
             resize(max * 4 + 1);
             max *= 4;
             max += 1;
             first = max - 1;
             last = size - 1;
         }
-        if(last == first){
+        if (last == first) {
             last += 1;
         }
         array[first] = item;
         first -= 1;
-        if(first < 0){
+        if (first < 0) {
             first = max-1;
         }
     }
-    public void addLast(T item){
+    public void addLast(T item) {
         size += 1;
-        if(size > max-1){
+        if (size > max - 1) {
             resize(max * 4 + 1);
             max *= 4;
             max += 1;
             last = size - 1;
             first = max - 1;
         }
-        if(last == first){
+        if (last == first) {
             first = max - 1;
         }
         array[last] = item;
         last += 1;
-        if(last == max){
+        if (last == max) {
             last = 0;
         }
     }
-    public int size(){
+    public int size() {
         return size;
     }
-    public void printDeque(){
+    public void printDeque() {
         int x = first + 1;
-        for(int i = 0;i < size;i++){
-            if(array[x] != null){
+        for (int i = 0; i < size; i++) {
+            if (array[x] != null) {
                 System.out.print(array[x]+"\n");
             }
             x += 1;
-            if(x == max){
+            if (x == max) {
                 x = 0;
             }
         }
     }
-    public T removeFirst(){
-        if(size == 0){
+    public T removeFirst() {
+        if (size == 0) {
             return null;
         }
 
-        if(size < (double)max/4){
+        if (size < (double) max / 4) {
             resize( max / 4 + 1);
             max /= 4;
             max += 1;
@@ -94,7 +94,7 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         }
         first += 1;
         T x;
-        if(first == max){
+        if (first == max) {
             first = 0;
         }
         x = array[first];
@@ -102,10 +102,10 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         return x;
     }
     public T removeLast(){
-        if(size == 0){
+        if (size == 0) {
             return null;
         }
-        if(size < (double)max/4){
+        if (size < (double) max / 4) {
             resize(max / 4 + 1);
             max /= 4;
             max += 1;
@@ -114,7 +114,7 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         }
         last -= 1;
         T x;
-        if(last == -1){
+        if (last == -1) {
             last = max - 1;
         }
         x = array[last];
@@ -124,20 +124,20 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
 
     @Override
     public T get(int index){
-        if(index > size || size == 0 || index < 0){
+        if (index > size || size == 0 || index < 0) {
             return null;
         }
         return array[(first + index + 1) % max];
     }
 
     // unique method
-    public Iterator<T> iterator(){
+    public Iterator<T> iterator() {
         return new ArrayDequeIterator();
     }
     private class ArrayDequeIterator implements Iterator<T> {
         private int index;
 
-        public ArrayDequeIterator() {
+        ArrayDequeIterator() {
             index = 0;
         }
 

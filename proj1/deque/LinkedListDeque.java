@@ -2,7 +2,7 @@ package deque;
 
 import java.util.Iterator;
 
-public class LinkedListDeque<T> implements Deque<T>,Iterable<T> {
+public class LinkedListDeque<T> implements Deque<T>, Iterable<T>{
     private int size;
 
     // anyway,here is the class that can generate the node
@@ -141,13 +141,20 @@ public class LinkedListDeque<T> implements Deque<T>,Iterable<T> {
     }
 
     public boolean equals(Object o) {
-        if (!(o instanceof Deque) || ((Deque<T>) o).size() != this.size()) {
+        if (!(o instanceof Deque)) {
             return false;
         }
-        for (int i = 0; i < this.size(); i += 1) {
-            if (((Deque<T>) o).get(i) != this.get(i)) {
+        Deque other = (Deque) o;
+        if (size != other.size()) {
+            return false;
+        }
+
+        node p = sentinal.next;
+        for (int i = 0; i < size; i++) {
+            if (!p.item.equals(other.get(i))) {
                 return false;
             }
+            p = p.next;
         }
         return true;
     }
