@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import edu.princeton.cs.introcs.StdRandom;
 /** Demos the version of assertEquals with a String message. */
 public class AssertEqualsStringDemo {
+    private Object StdRandom;
+
     @Test
     public void test1() {
         int expected = 20;
