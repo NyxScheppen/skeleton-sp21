@@ -1,14 +1,11 @@
-package deque;
+package tester;
 
+import deque.ArrayDeque;
 import edu.princeton.cs.algs4.StdRandom;
-import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+public class TestArrayDequeEC {
 
-
-public class ArrayDequetest {
-
-/*    public static void main(String[] args) {
+    public static void main(String[] args) {
         ArrayDeque<Integer> M = new ArrayDeque<>();
         for (int i = 0; i < 200; i += 1) {
             M.addLast(i);
@@ -37,24 +34,5 @@ public class ArrayDequetest {
                 M.removeFirst();
             }
         }
-    }
-}
- */
-    public static void main(String args[]){
-        ArrayDeque<Integer> aArrayDeque = new ArrayDeque<>();
-        aArrayDeque.addLast(0);
-        aArrayDeque.addFirst(1);
-        aArrayDeque.get(1);
-        aArrayDeque.removeFirst();
-        aArrayDeque.removeFirst();
-        aArrayDeque.addFirst(5);
-        aArrayDeque.removeFirst();
-        aArrayDeque.addFirst(7);
-        aArrayDeque.get(0);
-        aArrayDeque.removeFirst();
-        aArrayDeque.addLast(10);
-        aArrayDeque.addLast(11);
-        aArrayDeque.get(0);
-        System.out.println(aArrayDeque.removeLast());
     }
 }
