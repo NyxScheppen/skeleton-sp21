@@ -1,13 +1,19 @@
 package capers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
+import java.util.Arrays;
 
 import static capers.Utils.*;
 
 /** Canine Capers: A Gitlet Prelude.
- * @author TODO
+ * @nyx
 */
 public class Main {
+    private static final Logger log = LoggerFactory.getLogger(Main.class);
+
     /**
      * Runs one of three commands:
      * story [text] -- Appends "text" + a newline to a story file in the
@@ -40,6 +46,7 @@ public class Main {
         if (args.length == 0) {
             Utils.exitWithError("Must have at least one argument");
         }
+        log.info("args: {}", Arrays.toString(args));
 
         CapersRepository.setupPersistence();
         String text;
