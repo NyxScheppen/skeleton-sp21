@@ -8,6 +8,11 @@ public class BSTMap<K extends Comparable<K>,V> implements Map61B<K,V>{
     private int size;
     private BSTNode root;
 
+    @Override
+    public Iterator<K> iterator() {
+        return null;
+    }
+
     private class BSTNode{
 
         public K key;
@@ -31,6 +36,7 @@ public class BSTMap<K extends Comparable<K>,V> implements Map61B<K,V>{
 
     public void clear(){
         root = null;
+        size = 0;
     }
 
     public boolean containsKey(K key) {
@@ -71,13 +77,21 @@ public class BSTMap<K extends Comparable<K>,V> implements Map61B<K,V>{
     public void put(K key, V value) {
         BSTNode search = root;
 
-        while (search.left != null || search.right != null) {
+        if(search == null){
+            root = new BSTNode(value,key);
+            size += 1;
+            return;
+        }
+
+        while (search.left != null && search.right != null) {
             if (key.compareTo(search.key) < 0) {
                 search = search.left;
             } else if (key.compareTo(search.key) > 0) {
                 search = search.right;
             }
+            else return;
         }
+
         if (key.compareTo(search.key) < 0) {
             BSTNode newnode = new BSTNode(value,key);
             search.left = newnode;
@@ -85,7 +99,23 @@ public class BSTMap<K extends Comparable<K>,V> implements Map61B<K,V>{
             BSTNode newnode = new BSTNode(value,key);
             search.right = newnode;
         }
+        size += 1;
 
+    }
+
+    @Override
+    public Set<K> keySet() {
+        return Set.of();
+    }
+
+    @Override
+    public V remove(K key) {
+        return null;
+    }
+
+    @Override
+    public V remove(K key, V value) {
+        return null;
     }
 
     public void printInOrder(){
