@@ -53,21 +53,8 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         return new LinkedList<>();
     }
 
-    /**
-     * Returns a table to back our hash table. As per the comment
-     * above, this table can be an array of Collection objects
-     *
-     * BE SURE TO CALL THIS FACTORY METHOD WHEN CREATING A TABLE SO
-     * THAT ALL BUCKET TYPES ARE OF JAVA.UTIL.COLLECTION
-     *
-     * @param tableSize the size of the table to create
-     */
-
     private Collection<Node>[] createTable(int tableSize) {
        Collection[] bucketlist = new Collection[tableSize];
-       for(int i = 0;i < tableSize;i++){
-           bucketlist[i] = createBucket();
-       }
        return bucketlist;
     }
 
@@ -83,11 +70,13 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     public boolean containsKey(K key) {
        int pos = getPosition(key);
        Collection<Node> list = buckets[pos];
-        for(Node p:list){
-            if(p.key.equals(key)){
-                return true;
-            }
-        }
+       if(list != null){
+           for(Node p:list){
+               if(p.key.equals(key)){
+                   return true;
+               }
+           }
+       }
         return false;
     }
 
@@ -118,6 +107,9 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         }
         Node newnode = createNode(key,value);
         int pos = getPosition(key);
+        if (buckets[pos] == null) {
+            buckets[pos] = createBucket();
+        }
         for (Node node : buckets[pos]) {
             if (node.key.equals(key)) {
                 node.value = value;
@@ -136,11 +128,12 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         Set<K> key = new HashSet<>();
         for(int i = 0; i < initialSize; i += 1){
             Collection<Node> list = buckets[i];
-            if(list.iterator().hasNext()){
+            if (list != null) {
                 for(Node n : list){
                     key.add(n.key);
                 }
             }
+
         }
         return key;
     }
@@ -165,7 +158,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     }
 
     private boolean isOverload() {
-        return (double) size / initialSize >= loadFactor;
+        return (double) size/initialSize >= loadFactor;
     }
 
     private void resize(){
@@ -173,7 +166,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
        // ?why
         for(int i = 0; i < initialSize; i += 1){
             Collection<Node> list = buckets[i];
-            if(list.iterator().hasNext()){
+            if(list != null){
                 for(Node n : list){
                     temp.put(n.key,get(n.key));
                 }
@@ -181,7 +174,6 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         }
         initialSize *= 2;
         buckets = temp.buckets;
-        loadFactor = initialSize/size;
     }
 
     private class hsmpIterator<K> implements Iterator{
