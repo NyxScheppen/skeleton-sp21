@@ -1,20 +1,16 @@
 package hashmap;
 
-import java.util.Collection;
+import java.util.*;
 
 /**
  *  A hash table-backed Map implementation. Provides amortized constant time
  *  access to elements via get(), remove(), and put() in the best case.
  *
  *  Assumes null keys will never be inserted, and does not resize down upon remove().
- *  @author YOUR NAME HERE
+ *  @nyx YOUR NAME HERE
  */
 public class MyHashMap<K, V> implements Map61B<K, V> {
 
-    /**
-     * Protected helper class to store key/value pairs
-     * The protected qualifier allows subclass access
-     */
     protected class Node {
         K key;
         V value;
@@ -25,51 +21,36 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         }
     }
 
-    /* Instance Variables */
     private Collection<Node>[] buckets;
-    // You should probably define some more!
+    private int size;
+    private double loadFactor;
+    private int initialSize;
 
-    /** Constructors */
-    public MyHashMap() { }
-
-    public MyHashMap(int initialSize) { }
-
-    /**
-     * MyHashMap constructor that creates a backing array of initialSize.
-     * The load factor (# items / # buckets) should always be <= loadFactor
-     *
-     * @param initialSize initial size of backing array
-     * @param maxLoad maximum load factor
-     */
-    public MyHashMap(int initialSize, double maxLoad) { }
-
-    /**
-     * Returns a new node to be placed in a hash table bucket
-     */
-    private Node createNode(K key, V value) {
-        return null;
+    public MyHashMap() {
+        initialSize = 16;
+        loadFactor = 0.75;
+        buckets = createTable(initialSize);
     }
 
-    /**
-     * Returns a data structure to be a hash table bucket
-     *
-     * The only requirements of a hash table bucket are that we can:
-     *  1. Insert items (`add` method)
-     *  2. Remove items (`remove` method)
-     *  3. Iterate through items (`iterator` method)
-     *
-     * Each of these methods is supported by java.util.Collection,
-     * Most data structures in Java inherit from Collection, so we
-     * can use almost any data structure as our buckets.
-     *
-     * Override this method to use different data structures as
-     * the underlying bucket type
-     *
-     * BE SURE TO CALL THIS FACTORY METHOD INSTEAD OF CREATING YOUR
-     * OWN BUCKET DATA STRUCTURES WITH THE NEW OPERATOR!
-     */
+    public MyHashMap(int initialSize) {
+        loadFactor = 0.75;
+        this.initialSize = initialSize;
+        buckets = createTable(initialSize);
+    }
+
+    public MyHashMap(int initialSize, double loadFactor) {
+        buckets = createTable(initialSize);
+        this.loadFactor = loadFactor;
+        this.initialSize = initialSize;
+    }
+
+    private Node createNode(K key, V value) {
+        return new Node(key,value);
+    }
+
+
     protected Collection<Node> createBucket() {
-        return null;
+        return new LinkedList<>();
     }
 
     /**
@@ -81,11 +62,163 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      *
      * @param tableSize the size of the table to create
      */
+
     private Collection<Node>[] createTable(int tableSize) {
+       Collection[] bucketlist = new Collection[tableSize];
+       for(int i = 0;i < tableSize;i++){
+           bucketlist[i] = createBucket();
+       }
+       return bucketlist;
+    }
+
+    @Override
+    public void clear() {
+        size = 0;
+        initialSize = 16;
+        loadFactor = 0.75;
+        buckets = createTable(initialSize);
+    }
+
+    @Override
+    public boolean containsKey(K key) {
+       int pos = getPosition(key);
+       Collection<Node> list = buckets[pos];
+        for(Node p:list){
+            if(p.key.equals(key)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public V get(K key) {
+        int pos = getPosition(key);
+        Collection<Node> list = buckets[pos];
+        if (list == null) {
+            return null;
+        }
+        for (Node p : list) {
+            if (p.key.equals(key)) {
+                return p.value;
+            }
+        }
         return null;
     }
 
-    // TODO: Implement the methods of the Map61B Interface below
-    // Your code won't compile until you do so!
+    @Override
+    public int size() {
+        return size;
+    }
 
+    @Override
+    public void put(K key, V value) {
+        if(isOverload()){
+            resize();
+        }
+        Node newnode = createNode(key,value);
+        int pos = getPosition(key);
+        for (Node node : buckets[pos]) {
+            if (node.key.equals(key)) {
+                node.value = value;
+                return;
+            }
+        }
+        buckets[pos].add(newnode);
+        size += 1;
+    }
+
+    @Override
+    public Set<K> keySet() {
+        if(size == 0){
+            return null;
+        }
+        Set<K> key = new HashSet<>();
+        for(int i = 0; i < initialSize; i += 1){
+            Collection<Node> list = buckets[i];
+            if(list.iterator().hasNext()){
+                for(Node n : list){
+                    key.add(n.key);
+                }
+            }
+        }
+        return key;
+    }
+
+    @Override
+    public V remove(K key) {
+        return null;
+    }
+
+    @Override
+    public V remove(K key, V value) {
+        return null;
+    }
+
+    @Override
+    public Iterator<K> iterator() {
+        return new hsmpIterator<K>();
+    }
+
+    private int getPosition(K key) {
+        return Math.floorMod(key.hashCode(), initialSize);
+    }
+
+    private boolean isOverload() {
+        return (double) size / initialSize >= loadFactor;
+    }
+
+    private void resize(){
+        MyHashMap<K, V> temp = new MyHashMap<>(initialSize * 2);
+       // ?why
+        for(int i = 0; i < initialSize; i += 1){
+            Collection<Node> list = buckets[i];
+            if(list.iterator().hasNext()){
+                for(Node n : list){
+                    temp.put(n.key,get(n.key));
+                }
+            }
+        }
+        initialSize *= 2;
+        buckets = temp.buckets;
+        loadFactor = initialSize/size;
+    }
+
+    private class hsmpIterator<K> implements Iterator{
+
+        private Collection<Node> finder;
+        private Collection<Node>[] bkt = buckets;
+        private int nowposition = findPos(0);
+        private Iterator<Node> iter;
+
+        hsmpIterator(){
+            finder = buckets[nowposition];
+            iter = finder.iterator();
+        }
+
+        private int findPos(int cur) {
+            int pos = cur;
+            while (pos < initialSize && bkt[pos] == null) {
+                pos++;
+            }
+            return pos;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return iter.hasNext() || findPos(nowposition + 1) < initialSize;
+        }
+
+        @Override
+        public K next() {
+            if(iter.hasNext()){
+               return (K) iter.next().key;
+            } else{
+                nowposition = findPos(nowposition + 1);
+                finder = bkt[nowposition];
+                iter = finder.iterator();
+                return (K) iter.next().key;
+            }
+        }
+    }
 }
