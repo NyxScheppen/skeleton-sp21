@@ -22,7 +22,7 @@ public class CapersRepository{
     /** Main metadata folder. */
     static final File CAPERS_FOLDER = join(CWD,"capers");
 
-    static final File story = new File(CAPERS_FOLDER,"story.txt");
+    static final File story = new File(CAPERS_FOLDER,"story");
 
     /**
      * Does required filesystem operations to allow for persistence.
@@ -58,6 +58,14 @@ public class CapersRepository{
      * Also prints out the dog's information using toString().
      */
     public static void makeDog(String name, String breed, int age) {
+        File f = join(Dog.DOG_FOLDER, name);
+        if (!f.exists()) {
+            try {
+                f.createNewFile();
+            } catch (IOException ignore) {
+
+            }
+        }
         Dog dog = new Dog(name, breed, age);
         System.out.print(dog.toString());
         dog.saveDog();
