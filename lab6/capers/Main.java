@@ -1,8 +1,5 @@
 package capers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.util.Arrays;
 
@@ -12,8 +9,6 @@ import static capers.Utils.*;
  * @nyx
 */
 public class Main {
-    private static final Logger log = LoggerFactory.getLogger(Main.class);
-
     /**
      * Runs one of three commands:
      * story [text] -- Appends "text" + a newline to a story file in the
@@ -46,7 +41,6 @@ public class Main {
         if (args.length == 0) {
             Utils.exitWithError("Must have at least one argument");
         }
-        log.info("args: {}", Arrays.toString(args));
 
         CapersRepository.setupPersistence();
         String text;
@@ -59,11 +53,12 @@ public class Main {
             break;
         case "dog":
             validateNumArgs("dog", args, 4);
-            // TODO: make a dog
+            int age = Integer.valueOf(args[3]);
+            CapersRepository.makeDog(args[1], args[2], age);
             break;
         case "birthday":
             validateNumArgs("birthday", args, 2);
-            // TODO: celebrate this dog's birthday
+            CapersRepository.celebrateBirthday(args[1]);
             break;
         default:
             exitWithError(String.format("Unknown command: %s", args[0]));
