@@ -1,11 +1,30 @@
 package gitlet;
 
+import java.io.File;
+
 public class blobs {
 
-    // 存储文件
-    public static String name;
+    private String name;
 
-    public static String sha_1;
+    private String sha_1;
 
-    public static byte file;
+    private byte[] content;
+
+    public blobs(String name, String sha_1, byte[]content){
+        this.name = name;
+        this.content = content;
+        this.sha_1 = sha_1;
+    }
+
+    public byte[] getContent() {
+        return content;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSha_1() {
+        return sha_1;
+    }
 }

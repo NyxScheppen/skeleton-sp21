@@ -29,12 +29,10 @@ public class Main {
                 Repository.init();
                 break;
             case "add":
-                // 命令：java gitlet.Main add [file name]
                 printerror(args);
                 Repository.add(args[1]);
                 break;
             case "commit":
-                // 命令：java gitlet.Main commit [message]
                 printerror(args);
                 Repository.commit(args[1]);
                 break;
@@ -45,17 +43,17 @@ public class Main {
                 break;
             case "global-log":
                 // 命令：java gitlet.Main global-log
-                //TODO
+                // TODO
+                // 讲道理这是要干嘛
                 break;
             case "find":
                 // 命令：java gitlet.Main find [commit message]
                 printerror(args);
-                //TODO
+                // TODO
                 break;
             case "rm":
-                // 命令：java gitlet.Main rm [file name]
                 printerror(args);
-                // TODO
+                Repository.rm(args[1]);
                 break;
             case "rm-branch":
                 // 命令：java gitlet.Main rm-branch [branch name]
@@ -64,16 +62,15 @@ public class Main {
                 break;
             case "status":
                 // 命令：java gitlet.Main status
-                //TODO
+                // TODO
                 break;
             case "checkout":
                 // 命令：java gitlet.Main checkout -- [file name]
                 //      java gitlet.Main checkout [commit id] -- [file name]
                 //      java gitlet.Main checkout [branch name]
-                //TODO
+                // TODO
                 break;
             case "branch":
-                // 命令：java gitlet.Main branch [branch name]
                 printerror(args);
                 Repository.branch(args[1]);
                 break;

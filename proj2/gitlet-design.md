@@ -92,7 +92,7 @@
 ├── refs
     ├── commits
     └── heads
-├── Index
+├── Index,也就是缓冲区
 └── objects-blobs
 
 
