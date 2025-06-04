@@ -15,7 +15,7 @@ public class Repository {
     public static File commits = join(refs, "commits");
     public static File heads = join(refs, "heads");
     static index stage = readObject(Index, index.class);
-    public static File blobs = join(GITLET_DIR, "blobs");
+    public static File blobsm = join(GITLET_DIR, "blobs");
     static Commit headof = readObject(head, Commit.class);
 
     public static boolean initist(){
@@ -37,7 +37,7 @@ public class Repository {
         refs.mkdir();
         heads.mkdir();
         commits.mkdir();
-        blobs.mkdir();
+        blobsm.mkdir();
 
         try {
             head.createNewFile();
@@ -63,19 +63,10 @@ public class Repository {
         writeContents(initialcommit, initial);
     }
 
-    public static void indexinit(){
-        Commit head = readObject(heads, Commit.class);
-        for(String sha_1 : head.files){
-            File headcommit = join(blobs,sha_1);
-            stage.add(headcommit.getName(), readContents(headcommit));
-        }
-    }
-
     public static void add(String filename){
         if(!initist()){
             return;
         }
-        indexinit();
         File input = join(CWD, filename);
         if(!input.exists()){
             System.out.print("File does not exist");
@@ -88,10 +79,6 @@ public class Repository {
         if(!initist()){
             return;
         }
-        if(!stage.contains(name)){
-            System.out.print("No reason to remove the file.");
-            return;
-        }
         stage.remove(name);
     }
 
@@ -99,12 +86,20 @@ public class Repository {
         if(!initist()){
             return;
         }
-        // 搞到缓冲区里的文件
-        Commit newcommit = new Commit(message, sha1(headof), null, stage.Keyset());
-        // 在头文件那里更新
+        Commit newcommit = new Commit(message, headof.getHash_code(), null, stage.Keyset());
         writeContents(head, newcommit);
-        // 在branch里更新
-        stage.bloblism(blobs);
+        String dir = newcommit.getHash_code().substring(0,2);
+        File newdir = join(commits,dir);
+        if(!newdir.exists()){
+            newdir.mkdir();
+        }
+        File newcmt = join(newdir, newcommit.getHash_code().substring(2));
+        try {
+            newcmt.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        writeContents(newcmt, newcommit);
         stage.clear();
     }
 

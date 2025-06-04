@@ -65,10 +65,13 @@ public class Main {
                 // TODO
                 break;
             case "checkout":
-                // 命令：java gitlet.Main checkout -- [file name]
-                //      java gitlet.Main checkout [commit id] -- [file name]
-                //      java gitlet.Main checkout [branch name]
-                // TODO
+                if(args.length <= 1 || args.length >= 3){
+                    System.out.print("Incorrect operands.");
+                } else if(args.length == 2){
+                    checkout.checkout(args[1]);
+                }else{
+                    checkout.checkout(args[1],args[2]);
+                }
                 break;
             case "branch":
                 printerror(args);

@@ -1,8 +1,11 @@
 package gitlet;
 
 import java.io.File;
+import java.io.Serializable;
 
-public class blobs {
+import static gitlet.Utils.sha1;
+
+public class blobs implements Serializable {
 
     private String name;
 
@@ -10,10 +13,10 @@ public class blobs {
 
     private byte[] content;
 
-    public blobs(String name, String sha_1, byte[]content){
+    public blobs(String name, byte[]content){
         this.name = name;
         this.content = content;
-        this.sha_1 = sha_1;
+        this.sha_1 = sha1(this);
     }
 
     public byte[] getContent() {

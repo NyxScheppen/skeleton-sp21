@@ -3,7 +3,7 @@ import java.io.Serializable;
 import java.util.Date; // TODO: You'll likely use this in this class
 import java.util.Set;
 
-public class Commit implements Serializable {
+public class Commit  implements Serializable{
 
     private String timestamp;
     private String message;
@@ -16,9 +16,11 @@ public class Commit implements Serializable {
         this.message = message;
         this.parent = parent;
         if(timestamp == null){
-
+            Date time = new Date();
+            this.timestamp = time.toString();
+        }else{
+            this.timestamp = timestamp;
         }
-        this.timestamp = timestamp;
         this.files = file;
         hash_code = Utils.sha1(this);
     }

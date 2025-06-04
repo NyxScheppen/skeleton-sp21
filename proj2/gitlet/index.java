@@ -1,33 +1,49 @@
 package gitlet;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import static gitlet.Repository.GITLET_DIR;
+import static gitlet.Repository.blobsm;
 import static gitlet.Utils.*;
 
 public class index implements Serializable {
     public static final File Index = join(GITLET_DIR, "Index");
     // key = 文件名称,value = 文件内容
     private final Map<String, byte[]> added;
+
+    private final Map<String, byte[]> tracked;
+
+    private final Map<String, byte[]> removed;
+
     public index(){
         this.added = new HashMap<>();
+        this.tracked = new HashMap<>();
+        this.removed = new HashMap<>();
     }
 
-    // 在缓冲区里移除文件
+    // 实施rm指令
     public void remove(String name){
         if(added.containsKey(name)){
             added.remove(name);
+        }else if(tracked.containsKey(name)){
+            removed.put(name, tracked.get(name));
+            tracked.remove(name);
+        }else{
+            System.out.print("No reason to remove the file");
         }
         update();
     }
 
     // 清空缓冲区
     public void clear(){
-        writeContents(Index);
+        tracked.putAll(added);
+        added.clear();
+        removed.clear();
         update();
     }
 
@@ -38,33 +54,53 @@ public class index implements Serializable {
         update();
     }
 
-    // 覆盖缓冲区
-
-    public void update(){
-        writeContents(Index,this);
-    }
-
-    // 是否包含该文件
+    // 是否跟踪该文件
 
     public boolean contains(String name){
-        if(added.containsKey(name)){
+        if(tracked.containsKey(name)){
           return true;
         }
         return false;
     }
 
-    // 返回包含所有文件的sha_1值的一个集合
 
     public Set<String> Keyset(){
-        Set<String> sha_1 = new HashSet<>();
-        for(String key : added.keySet()){
-            sha_1.add(sha1(added.get(key)));
-        }
-        return sha_1;
+        return bloblism();
     }
 
-    public void bloblism(File blob){
+    public Set<String> bloblism(){
+        Set<String> sha1 = new HashSet<>();
         for(String key : added.keySet()){
+            blobs newblob = new blobs(key, added.get(key));
+            File newfile = join(blobsm, sha1(newblob));
+            if(newfile.exists()){
+                continue;
+            }
+            try {
+                newfile.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            writeContents(newfile, newblob);
+            sha1.add(sha1(newblob));
         }
+        for(String key : tracked.keySet()){
+            blobs newblob = new blobs(key, tracked.get(key));
+            File newfile = join(blobsm, sha1(newblob));
+            if(newfile.exists()){
+                continue;
+            }
+            try {
+                newfile.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            writeContents(newfile, newblob);
+            sha1.add(sha1(newblob));
+        }
+        return sha1;
+    }
+    private void update(){
+        writeContents(Index,this);
     }
 }
