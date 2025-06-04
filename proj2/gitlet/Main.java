@@ -59,7 +59,7 @@ public class Main {
                 // TODO
                 break;
             case "checkout":
-                if(args.length <= 1 || args.length >= 3){
+                if(args.length <= 1 || args.length > 3){
                     System.out.print("Incorrect operands.");
                 } else if(args.length == 2){
                     checkout.checkout(args[1]);

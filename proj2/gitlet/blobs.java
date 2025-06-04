@@ -16,7 +16,11 @@ public class blobs implements Serializable {
     public blobs(String name, byte[]content){
         this.name = name;
         this.content = content;
-        this.sha_1 = sha1(name, content);
+        if(content != null){
+            this.sha_1 = sha1(name, content);
+        }else{
+            this.sha_1 = sha1(name);
+        }
     }
 
     public byte[] getContent() {

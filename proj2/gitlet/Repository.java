@@ -49,7 +49,7 @@ public class Repository {
     }
 
     public static void init(){
-        Commit initial = new Commit("initial commit", "null", "00:00:00 UTC, Thursday, 1 January 1970",new HashSet<String>());
+        Commit initial = new Commit("initial commit", null, "00:00:00 UTC, Thursday, 1 January 1970",new HashSet<String>());
         if(initist()){
            System.out.print("A Gitlet version-control system already exists in the current directory.");
            return;
@@ -70,15 +70,37 @@ public class Repository {
         headof = initial;
         branch("master");
 
+        index dummy = new index();
+
         try {
             Index.createNewFile();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        
-        stage = new index();
-        stage.add("initial", Utils.serialize(initial));
-        commit("first commit");
+
+        writeContents(Index, Utils.serialize(dummy));
+
+        writeContents(head, Utils.serialize(initial));
+        String dir = initial.getHash_code().substring(0,2);
+        File newdir = join(commits,dir);
+        if(!newdir.exists()){
+            newdir.mkdir();
+        }
+        File newcmt = join(newdir, initial.getHash_code().substring(2));
+        try {
+            newcmt.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        writeContents(newcmt, Utils.serialize(initial));
+        blobs newblob = new blobs("initial", null);
+        File newfile = join(blobsm, newblob.getSha_1());
+        try {
+            newfile.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        writeContents(newfile, Utils.serialize(newblob));
     }
 
     public static void add(String filename){
@@ -145,13 +167,19 @@ public class Repository {
         }
         Commit nowcommit = headof;
         while(nowcommit != null){
-            System.out.print("===");
+            System.out.print("===\n");
             System.out.print("commit " + nowcommit.getHash_code());
-            System.out.print("Date: " + nowcommit.getTimestamp());
-            System.out.print(nowcommit.getMessage());
-            System.out.print("\n" + "===");
-            File newcommit = join(commits, nowcommit.getParent());
-            nowcommit = readObject(newcommit, Commit.class);
+            System.out.print("\nDate: " + nowcommit.getTimestamp());
+            System.out.print("\n" + nowcommit.getMessage());
+            System.out.print("\n\n" + "===\n");
+            if(nowcommit.getParent() != null){
+                File newcommit = join(commits, nowcommit.getParent().substring(0,2));
+                File newcommitagain = join(newcommit, nowcommit.getParent().substring(2));
+                nowcommit = readObject(newcommitagain, Commit.class);
+            }
+            else{
+                break;
+            }
         }
     }
 }

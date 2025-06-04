@@ -14,7 +14,7 @@ public class checkout{
 
     public static void checkout(String commitid, String filename){
         File commitment = join(commits, commitid.substring(0,2));
-        File commitmentt = join(commitment, commitid.substring(commitid.length() - 2));
+        File commitmentt = join(commitment, commitid.substring(2));
         if(!commitmentt.exists()){
             System.out.print("No commit with that id exists");
         }
