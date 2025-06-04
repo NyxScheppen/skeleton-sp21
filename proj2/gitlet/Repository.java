@@ -14,13 +14,23 @@ public class Repository {
     public static final File refs = join(GITLET_DIR, "refs");
     public static File commits = join(refs, "commits");
     public static File heads = join(refs, "heads");
-    static index stage = readObject(Index, index.class);
+    private static index stage = readforstage();
     public static File blobsm = join(GITLET_DIR, "blobs");
     static Commit headof = readObject(head, Commit.class);
 
+
+    private static index readforstage(){
+        index newindex;
+        if(Index.exists()){
+            newindex = readObject(Index, index.class);
+        }else{
+            newindex = null;
+        }
+        return newindex;
+    }
+    
     public static boolean initist(){
         if(!GITLET_DIR.exists()){
-            System.out.print("Not in an initialized Gitlet directory.");
             return false;
         }
         return true;
@@ -53,6 +63,7 @@ public class Repository {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        stage = readObject(Index, index.class);
 
         File initialcommit = join(commits, sha1(initial));
         try {
@@ -65,6 +76,7 @@ public class Repository {
 
     public static void add(String filename){
         if(!initist()){
+            System.out.print("Not in an initialized Gitlet directory.");
             return;
         }
         File input = join(CWD, filename);
@@ -84,6 +96,7 @@ public class Repository {
 
     public static void commit(String message){
         if(!initist()){
+            System.out.print("Not in an initialized Gitlet directory.");
             return;
         }
         Commit newcommit = new Commit(message, headof.getHash_code(), null, stage.Keyset());
@@ -105,6 +118,7 @@ public class Repository {
 
     public static File branch(String name){
         if(!initist()){
+            System.out.print("Not in an initialized Gitlet directory.");
             return null;
         }
         File newbranch = join(heads,name);
@@ -118,6 +132,10 @@ public class Repository {
     }
 
     public static void getlog(){
+        if(!initist()){
+            System.out.print("Not in an initialized Gitlet directory.");
+            return;
+        }
         Commit nowcommit = headof;
         while(nowcommit != null){
             System.out.print("===");
