@@ -2,6 +2,8 @@ package gitlet;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
+
 import static gitlet.Utils.*;
 
 public class Repository {
@@ -47,7 +49,7 @@ public class Repository {
     }
 
     public static void init(){
-        Commit initial = new Commit("initial commit", "null", "00:00:00 UTC, Thursday, 1 January 1970",null);
+        Commit initial = new Commit("initial commit", "null", "00:00:00 UTC, Thursday, 1 January 1970",new HashSet<>());
         if(initist()){
            System.out.print("A Gitlet version-control system already exists in the current directory.");
            return;
