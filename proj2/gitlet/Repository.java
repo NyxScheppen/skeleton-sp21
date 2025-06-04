@@ -64,7 +64,7 @@ public class Repository {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        writeContents(head, initial.getHash_code());
+        writeContents(head, initial);
         headof = readObject(head, Commit.class);
         branch("master");
 
