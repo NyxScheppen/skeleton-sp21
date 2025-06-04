@@ -47,7 +47,7 @@ public class Repository {
     }
 
     public static void init(){
-        Commit initial = new Commit("initial commit", null, "00:00:00 UTC, Thursday, 1 January 1970",null);
+        Commit initial = new Commit("initial commit", "null", "00:00:00 UTC, Thursday, 1 January 1970",null);
         if(initist()){
            System.out.print("A Gitlet version-control system already exists in the current directory.");
            return;
