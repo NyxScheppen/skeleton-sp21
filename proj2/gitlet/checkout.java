@@ -24,7 +24,7 @@ public class checkout{
     public static void checkouthelper(String filename,File finder){
         Commit headm = readObject(finder, Commit.class);
         // 传过来的是文件名字的情况
-        for(String sha_1 : headm.files){
+        for(String sha_1 : headm.file){
             File headcommit = join(blobsm, sha_1);
             blobs newblob = readObject(headcommit, blobs.class);
             if(filename.equals(newblob.getName())){
