@@ -49,7 +49,7 @@ public class Repository {
     }
 
     public static void init(){
-        Commit initial = new Commit("initial commit", null, "00:00:00 UTC, Thursday, 1 January 1970",new HashSet<String>());
+        Commit initial = new Commit("initial commit", null, "Wed Dec 31 16:00:00 1969",new HashSet<String>());
         if(initist()){
            System.out.print("A Gitlet version-control system already exists in the current directory.");
            return;
@@ -171,7 +171,7 @@ public class Repository {
             System.out.print("commit " + nowcommit.getHash_code());
             System.out.print("\nDate: " + nowcommit.getTimestamp());
             System.out.print("\n" + nowcommit.getMessage());
-            System.out.print("\n\n" + "===\n");
+            System.out.print("\n\n");
             if(nowcommit.getParent() != null){
                 File newcommit = join(commits, nowcommit.getParent().substring(0,2));
                 File newcommitagain = join(newcommit, nowcommit.getParent().substring(2));
