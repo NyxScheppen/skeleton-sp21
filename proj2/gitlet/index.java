@@ -72,7 +72,7 @@ public class index implements Serializable {
         Set<String> sha1 = new HashSet<>();
         for(String key : added.keySet()){
             blobs newblob = new blobs(key, added.get(key));
-            File newfile = join(blobsm, sha1(newblob));
+            File newfile = join(blobsm, newblob.getSha_1());
             if(newfile.exists()){
                 continue;
             }
@@ -82,7 +82,7 @@ public class index implements Serializable {
                 throw new RuntimeException(e);
             }
             writeContents(newfile, newblob);
-            sha1.add(sha1(newblob));
+            sha1.add(newblob.getSha_1());
         }
         for(String key : tracked.keySet()){
             blobs newblob = new blobs(key, tracked.get(key));
