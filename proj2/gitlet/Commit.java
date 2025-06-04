@@ -12,7 +12,7 @@ public class Commit  implements Serializable{
 
     public Set<String> files;
 
-    public Commit(String message, String parent, String timestamp, Set file){
+    public Commit(String message, String parent, String timestamp, Set<String> file){
         this.message = message;
         this.parent = parent;
         if(timestamp == null){
