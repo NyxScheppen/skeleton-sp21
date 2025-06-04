@@ -49,7 +49,7 @@ public class Repository {
     }
 
     public static void init(){
-        Commit initial = new Commit("initial commit", "null", "00:00:00 UTC, Thursday, 1 January 1970",new HashSet<>());
+        Commit initial = new Commit("initial commit", "null", "00:00:00 UTC, Thursday, 1 January 1970",new HashSet<String>());
         if(initist()){
            System.out.print("A Gitlet version-control system already exists in the current directory.");
            return;
@@ -66,8 +66,8 @@ public class Repository {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        writeContents(head, initial);
-        headof = readObject(head, Commit.class);
+        writeContents(head, Utils.serialize(initial));
+        headof = initial;
         branch("master");
 
         try {
@@ -112,7 +112,7 @@ public class Repository {
             return;
         }
         Commit newcommit = new Commit(message, headof.getHash_code(), null, stage.Keyset());
-        writeContents(head, newcommit);
+        writeContents(head, Utils.serialize(newcommit));
         String dir = newcommit.getHash_code().substring(0,2);
         File newdir = join(commits,dir);
         if(!newdir.exists()){
@@ -124,7 +124,7 @@ public class Repository {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        writeContents(newcmt, newcommit);
+        writeContents(newcmt, Utils.serialize(newcommit));
         stage.clear();
     }
 
@@ -139,7 +139,7 @@ public class Repository {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        writeContents(newbranch, headof.getHash_code());
+        writeContents(newbranch, Utils.serialize(headof));
         return newbranch;
     }
 

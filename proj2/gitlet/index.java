@@ -81,7 +81,7 @@ public class index implements Serializable {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            writeContents(newfile, newblob);
+            writeContents(newfile, Utils.serialize(newblob));
             sha1.add(newblob.getSha_1());
         }
         for(String key : tracked.keySet()){
@@ -95,12 +95,12 @@ public class index implements Serializable {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            writeContents(newfile, newblob);
+            writeContents(newfile, Utils.serialize(newblob));
             sha1.add(newblob.getSha_1());
         }
         return sha1;
     }
     private void update(){
-        writeContents(Index,this);
+        writeContents(Index,Utils.serialize(this));
     }
 }
