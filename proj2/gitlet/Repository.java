@@ -75,7 +75,6 @@ public class Repository {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        stage = readObject(Index, index.class);
 
         File initialcommit = join(commits, initial.getHash_code());
         try {
