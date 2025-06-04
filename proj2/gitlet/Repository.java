@@ -113,7 +113,7 @@ public class Repository {
             System.out.print("File does not exist");
             return;
         }
-        stage.add(filename, serialize(input));
+        stage.add(filename, readContents(input));
     }
 
     public static void rm(String name){

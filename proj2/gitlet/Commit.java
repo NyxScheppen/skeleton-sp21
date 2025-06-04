@@ -10,7 +10,7 @@ public class Commit  implements Serializable{
     private String parent;
     private String hash_code;
 
-    public Set<String> file;
+    public  Set<String> file;
 
     public Commit(String message, String parent, String timestamp, Set<String> file){
         this.message = message;
