@@ -22,7 +22,7 @@ public class Commit  implements Serializable{
             this.timestamp = timestamp;
         }
         this.file = file;
-        hash_code = Utils.sha1(message) + Utils.sha1(file) + Utils.sha1(parent) + Utils.sha1(timestamp);
+        hash_code = Utils.sha1(this.toString());
     }
 
     public String getParent() {
