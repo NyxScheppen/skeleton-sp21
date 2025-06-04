@@ -82,7 +82,7 @@ public class Repository {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        writeContents(initialcommit, initial);
+        writeContents(initialcommit, Utils.serialize(initial));
     }
 
     public static void add(String filename){
