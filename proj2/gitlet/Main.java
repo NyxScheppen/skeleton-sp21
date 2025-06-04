@@ -59,12 +59,15 @@ public class Main {
                 // TODO
                 break;
             case "checkout":
-                if(args.length <= 1 || args.length > 3){
+                if(args.length <= 1 || args.length > 4){
                     System.out.print("Incorrect operands.");
                 } else if(args.length == 2){
-                    checkout.checkout(args[1]);
-                }else{
-                    checkout.checkout(args[1],args[2]);
+
+                }else if(args.length == 3){
+                    checkout.checkout(args[2]);
+                }
+                else{
+                    checkout.checkout(args[1],args[3]);
                 }
                 break;
             case "branch":
