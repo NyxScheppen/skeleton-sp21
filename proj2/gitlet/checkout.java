@@ -2,7 +2,6 @@ package gitlet;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.Callable;
 
 import static gitlet.Repository.*;
 import static gitlet.Utils.*;
@@ -22,8 +21,6 @@ public class checkout{
         checkouthelper(filename, commitmentt);
     }
 
-    // need to fix
-    // TODO
     public static void checkouthelper(String filename,File finder){
         Commit headm = readObject(finder, Commit.class);
         // 传过来的是文件名字的情况
