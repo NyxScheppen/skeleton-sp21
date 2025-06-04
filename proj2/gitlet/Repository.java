@@ -75,14 +75,10 @@ public class Repository {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        File initialcommit = join(commits, initial.getHash_code());
-        try {
-            initialcommit.createNewFile();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        writeContents(initialcommit, Utils.serialize(initial));
+        
+        stage = new index();
+        stage.add("initial", Utils.serialize(initial));
+        commit("first commit");
     }
 
     public static void add(String filename){
