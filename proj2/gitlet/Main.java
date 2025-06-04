@@ -1,15 +1,10 @@
 package gitlet;
 
-import java.io.File;
-
 /** Driver class for Gitlet, a subset of the Git version-control system.
  *  @author nyx
  */
 public class Main {
 
-    /** Usage: java gitlet.Main ARGS, where ARGS contains
-     *  <COMMAND> <OPERAND1> <OPERAND2> ... 
-     */
 
     private static void printerror(String[] args) {
         if(args.length != 2){
@@ -37,9 +32,7 @@ public class Main {
                 Repository.commit(args[1]);
                 break;
             case "log":
-                //包括提交 ID、提交时间和提交信息
-                // 命令：java gitlet.Main log
-                //TODO
+                Repository.getlog();
                 break;
             case "global-log":
                 // 命令：java gitlet.Main global-log

@@ -116,4 +116,17 @@ public class Repository {
         writeContents(newbranch, headof.getHash_code());
         return newbranch;
     }
+
+    public static void getlog(){
+        Commit nowcommit = headof;
+        while(nowcommit != null){
+            System.out.print("===");
+            System.out.print("commit " + nowcommit.getHash_code());
+            System.out.print("Date: " + nowcommit.getTimestamp());
+            System.out.print(nowcommit.getMessage());
+            System.out.print("\n" + "===");
+            File newcommit = join(commits, nowcommit.getParent());
+            nowcommit = readObject(newcommit, Commit.class);
+        }
+    }
 }
