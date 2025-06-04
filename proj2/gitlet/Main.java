@@ -19,6 +19,7 @@ public class Main {
         }
 
         String firstArg = args[0];
+
         switch(firstArg) {
             case "init":
                 Repository.init();

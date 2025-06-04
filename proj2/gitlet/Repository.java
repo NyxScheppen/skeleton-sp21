@@ -1,5 +1,7 @@
 package gitlet;
 
+import org.checkerframework.checker.units.qual.C;
+
 import java.io.File;
 import java.io.IOException;
 import static gitlet.Utils.*;
@@ -16,7 +18,7 @@ public class Repository {
     public static File heads = join(refs, "heads");
     private static index stage = readforstage();
     public static File blobsm = join(GITLET_DIR, "blobs");
-    static Commit headof = readObject(head, Commit.class);
+    static Commit headof = readforheadof();
 
 
     private static index readforstage(){
@@ -28,7 +30,17 @@ public class Repository {
         }
         return newindex;
     }
-    
+
+    private static Commit readforheadof(){
+        Commit newindex;
+        if(head.exists()){
+            newindex = readObject(head, Commit.class);
+        }else{
+            newindex = null;
+        }
+        return newindex;
+    }
+
     public static boolean initist(){
         if(!GITLET_DIR.exists()){
             return false;
