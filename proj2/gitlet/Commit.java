@@ -10,7 +10,7 @@ public class Commit  implements Serializable{
     private String parent;
     private String hash_code;
 
-    public Set<String> files;
+    public Set<String> file;
 
     public Commit(String message, String parent, String timestamp, Set<String> file){
         this.message = message;
@@ -21,8 +21,8 @@ public class Commit  implements Serializable{
         }else{
             this.timestamp = timestamp;
         }
-        this.files = file;
-        hash_code = Utils.sha1(message + parent + timestamp) + Utils.sha1(files);
+        this.file = file;
+        hash_code = Utils.sha1(message) + Utils.sha1(file) + Utils.sha1(parent) + Utils.sha1(timestamp);
     }
 
     public String getParent() {
