@@ -2,7 +2,9 @@ package gitlet;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
+import java.util.Locale;
 
 import static gitlet.Utils.*;
 
@@ -49,7 +51,7 @@ public class Repository {
     }
 
     public static void init(){
-        Commit initial = new Commit("initial commit", null, "Wed Dec 31 16:00:00 GMT 1969",new HashSet<String>());
+        Commit initial = new Commit("initial commit");
         if(initist()){
            System.out.print("A Gitlet version-control system already exists in the current directory.");
            return;
@@ -167,11 +169,11 @@ public class Repository {
         }
         Commit nowcommit = headof;
         while(nowcommit != null){
-            System.out.print("===\n");
-            System.out.print("commit " + nowcommit.getHash_code());
-            System.out.print("\nDate: " + nowcommit.getTimestamp());
-            System.out.print("\n" + nowcommit.getMessage());
-            System.out.print("\n\n");
+            System.out.println("===");
+            System.out.println("commit " + nowcommit.getHash_code());
+            SimpleDateFormat d = new SimpleDateFormat("E MMM dd HH:mm:ss yyyy Z", Locale.ENGLISH);
+            System.out.println("Date: " + d.format(nowcommit.getTimestamp()));
+            System.out.println(nowcommit.getMessage() + "\n");
             if(nowcommit.getParent() != null){
                 File newcommit = join(commits, nowcommit.getParent().substring(0,2));
                 File newcommitagain = join(newcommit, nowcommit.getParent().substring(2));
