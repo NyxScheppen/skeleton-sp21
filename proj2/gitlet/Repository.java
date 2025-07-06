@@ -1,10 +1,12 @@
 package gitlet;
 
+import net.sf.saxon.trans.SymbolicName;
+
 import java.io.File;
 import java.io.IOException;
+import java.sql.Blob;
 import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.Locale;
+import java.util.*;
 
 import static gitlet.Utils.*;
 
@@ -130,13 +132,16 @@ public class Repository {
             System.out.print("Not in an initialized Gitlet directory.");
             return;
         }
+        // keyset call bloblism
         Commit newcommit = new Commit(message, headof.getHash_code(), null, stage.Keyset());
         writeContents(head, Utils.serialize(newcommit));
+        // 新的commits文件夹（若必要）
         String dir = newcommit.getHash_code().substring(0,2);
         File newdir = join(commits,dir);
         if(!newdir.exists()){
             newdir.mkdir();
         }
+        // 新的commit
         File newcmt = join(newdir, newcommit.getHash_code().substring(2));
         try {
             newcmt.createNewFile();
@@ -162,12 +167,107 @@ public class Repository {
         return newbranch;
     }
 
+    public static void rm_branch(String name){
+        if(!initist()){
+            System.out.print("Not in an initialized Gitlet directory.");
+            return;
+        }
+        File rmbranch =join(heads, name);
+        if(!rmbranch.exists()){
+            System.out.print("A branch with that name does not exist.");
+        }else if(name == "master"){
+            System.out.print("Cannot remove the current branch.");
+        }
+    }
+
+    public static void status(){
+        if(!initist()){
+            System.out.print("Not in an initialized Gitlet directory.");
+            return;
+        }
+        System.out.print("=== Branches ===" + "\n");
+        File[] collect = heads.listFiles();
+        for(int i = 0; i < collect.length; i++){
+            String name = collect[i].getName();
+            if(name == "master"){
+                System.out.print("*");
+            }
+            System.out.print(name);
+        }
+        System.out.print("=== Staged Files ===" + "\n");
+        Set<String> m = stage.stagefile();
+        for(String s : m){
+            System.out.print(s + " ");
+        }
+        System.out.print("=== Removed Files ===" + "\n");
+        Set<String> n = stage.removedfile();
+        for(String s : n){
+            System.out.print(s + " ");
+        }
+        System.out.print("=== Modifications Not Staged For Commit ===" + "\n");
+        System.out.print("=== Untracked Files ===" + "\n");
+    }
+
+    public static void find(String message){
+        List<String> name = fndcmt(message);
+        if(name.isEmpty()){
+            System.out.print("Found no commit with that message.");
+        }else{
+            for(String s : name){
+                System.out.print(s);
+            }
+        }
+    }
+
+    public static void reset(String message){
+        List<String> m = fndcmt(message);
+        String s = m.get(0);
+        File rsgt = join(commits,s);
+        Commit cmt = readObject(rsgt, Commit.class);
+        for(String ss : cmt.file){
+           File f = join(blobsm, ss);
+           blobs b = readObject(f, blobs.class);
+           checkout.checkout(cmt.getHash_code(), b.getName());
+           add(b.getName());
+        }
+        writeContents(head, Utils.serialize(cmt));
+        stage.clear();
+    }
+
+    private static List<String> fndcmt(String message){
+        List<String> ls = new ArrayList<>();
+        File[] name = commits.listFiles();
+        for(File f : name){
+            File[] commit = commits.listFiles();
+            for(File com : commit){
+                Commit fd = Utils.readObject(com, Commit.class);
+                if(fd.getMessage() == message){
+                    ls.add(com.getName());
+                }
+            }
+        }
+        return ls;
+    }
+
+
     public static void getlog(){
         if(!initist()){
             System.out.print("Not in an initialized Gitlet directory.");
             return;
         }
-        Commit nowcommit = headof;
+        prtlog(headof);
+    }
+
+    public static void global_log(){
+        List<String> name = plainFilenamesIn(heads);
+        for(String s : name){
+            File f = join(heads, s);
+            prtlog(readObject(f, Commit.class));
+        }
+    }
+
+    private static void prtlog(Commit name){
+        Commit nowcommit = name;
         while(nowcommit != null){
             System.out.println("===");
             System.out.println("commit " + nowcommit.getHash_code());

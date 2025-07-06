@@ -3,10 +3,8 @@ package gitlet;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+
 import static gitlet.Repository.GITLET_DIR;
 import static gitlet.Repository.blobsm;
 import static gitlet.Utils.*;
@@ -102,5 +100,13 @@ public class index implements Serializable {
     }
     private void update(){
         writeContents(Index,Utils.serialize(this));
+    }
+
+    public Set<String> stagefile(){
+        return added.keySet();
+    }
+
+    public Set<String> removedfile(){
+        return removed.keySet();
     }
 }

@@ -36,33 +36,28 @@ public class Main {
                 Repository.getlog();
                 break;
             case "global-log":
-                // 命令：java gitlet.Main global-log
-                // TODO
-                // 讲道理这是要干嘛
+                Repository.global_log();
                 break;
             case "find":
-                // 命令：java gitlet.Main find [commit message]
                 printerror(args);
-                // TODO
+                Repository.find(args[1]);
                 break;
             case "rm":
                 printerror(args);
                 Repository.rm(args[1]);
                 break;
             case "rm-branch":
-                // 命令：java gitlet.Main rm-branch [branch name]
                 printerror(args);
-                //TODO
+                Repository.rm_branch(args[1]);
                 break;
             case "status":
-                // 命令：java gitlet.Main status
-                // TODO
+                Repository.status();
                 break;
             case "checkout":
                 if(args.length <= 1 || args.length > 4){
                     System.out.print("Incorrect operands.");
                 } else if(args.length == 2){
-
+                    checkout.checkout(args[1]);
                 }else if(args.length == 3){
                     checkout.checkout(args[2]);
                 }
@@ -77,7 +72,7 @@ public class Main {
             case "reset":
                 // 命令：java gitlet.Main reset [commit id]
                 printerror(args);
-                // TODO
+                Repository.reset(args[1]);
                 break;
             case "merge":
                 // 命令：java gitlet.Main merge [branch name]
