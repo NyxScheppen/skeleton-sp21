@@ -1,10 +1,7 @@
 package gitlet;
 
-import net.sf.saxon.trans.SymbolicName;
-
 import java.io.File;
 import java.io.IOException;
-import java.sql.Blob;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
