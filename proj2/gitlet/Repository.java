@@ -12,7 +12,6 @@ public class Repository {
     public static final File CWD = new File(System.getProperty("user.dir"));
     public static final File GITLET_DIR = join(CWD, ".gitlet");
     public static final File head = join(GITLET_DIR, "head");
-    public static final File Objects = join(GITLET_DIR, "Objects");
     public static final File Index = join(GITLET_DIR, "Index");
     public static final File refs = join(GITLET_DIR, "refs");
     public static File commits = join(refs, "commits");
@@ -56,7 +55,6 @@ public class Repository {
            return;
         }
         GITLET_DIR.mkdir();
-        Objects.mkdir();
         refs.mkdir();
         heads.mkdir();
         commits.mkdir();
