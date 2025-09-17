@@ -57,7 +57,7 @@ public class Main {
                 if(args.length <= 1 || args.length > 4){
                     System.out.print("Incorrect operands.");
                 } else if(args.length == 2){
-                    checkout.checkout(args[1]);
+                    checkout.checkout(args[1],1);
                 }else if(args.length == 3){
                     checkout.checkout(args[2]);
                 }
@@ -70,7 +70,6 @@ public class Main {
                 Repository.branch(args[1]);
                 break;
             case "reset":
-                // 命令：java gitlet.Main reset [commit id]
                 printerror(args);
                 Repository.reset(args[1]);
                 break;

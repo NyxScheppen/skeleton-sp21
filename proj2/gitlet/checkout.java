@@ -2,6 +2,8 @@ package gitlet;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.sql.Blob;
 
 import static gitlet.Repository.*;
 import static gitlet.Utils.*;
@@ -41,5 +43,27 @@ public class checkout{
                 return;
             }
         }
+    }
+    public static void checkout(String branch, int m){
+        // 在文件夹里查找该分支
+        File f = join(heads, branch);
+        if(!f.exists()){
+            System.out.print("No such branch exists.");
+            return;
+        }
+        Commit n = readObject(f, Commit.class);
+        if(n.getHash_code() == headof.getHash_code()){
+            System.out.print("There is an untracked file in the way; delete it, or add and commit it first.");
+        }
+        // 将文件复制到工作区
+        for(String s : n.file){
+            File fs = join(blobsm, s);
+            blobs ls = readObject(fs, blobs.class);
+            File fn = join(CWD, ls.getName());
+            writeContents(fn, ls.getContent());
+        }
+        // 替换head文件
+        writeContents(head, Utils.serialize(n));
+        stage.clear();
     }
 }

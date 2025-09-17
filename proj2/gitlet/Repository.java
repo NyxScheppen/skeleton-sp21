@@ -16,7 +16,7 @@ public class Repository {
     public static final File refs = join(GITLET_DIR, "refs");
     public static File commits = join(refs, "commits");
     public static File heads = join(refs, "heads");
-    private static index stage = readforstage();
+    public static index stage = readforstage();
     public static File blobsm = join(GITLET_DIR, "blobs");
     static Commit headof = readforheadof();
 
@@ -67,6 +67,7 @@ public class Repository {
         }
         writeContents(head, Utils.serialize(initial));
         headof = initial;
+        // 草所以branch类实际上没用...
         branch("master");
 
         index dummy = new index();
