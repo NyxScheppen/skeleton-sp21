@@ -10,7 +10,7 @@ public class generateGallery {
 
     private static Random RANDOM;
 
-    public static void generateGallery(TETile[][] world, List<Position> centers, int SEED) {
+    public static void generateGallery(TETile[][] world, List<Position> centers, long SEED) {
         RANDOM = new Random(SEED);
         for (int i = 1; i < centers.size(); i++) {
             drawCorridor(world, centers.get(i - 1), centers.get(i));

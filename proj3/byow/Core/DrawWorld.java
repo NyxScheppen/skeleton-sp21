@@ -15,10 +15,10 @@ public class DrawWorld {
     public static int WIDTH;
     public static int HEIGHT;
 
-    private static int SEED;
+    private static long SEED;
     private static Random RANDOM;
 
-    public DrawWorld(int width, int height, int seed) {
+    public DrawWorld(int width, int height, long seed) {
         WIDTH = width;
         HEIGHT = height;
         SEED = seed;
@@ -33,7 +33,7 @@ public class DrawWorld {
         }
     }
 
-    public void drawWorld(TETile[][] world, String input) {
+    public void drawWorld(TETile[][] world) {
         // 考虑一下画房间的算法
         Position[] p = new Position[200];
         for(int i = 0; i < p.length; i++) {
@@ -43,12 +43,12 @@ public class DrawWorld {
         for(int i = 0; i < p.length; i++) {
             int x,y;
             do{
-                x = RANDOM.nextInt(10);
-                y = RANDOM.nextInt(20);
-            }while(x < 3 || y < 6);
+                x = RANDOM.nextInt(15);
+                y = RANDOM.nextInt(15);
+            }while(x < 3 || y < 3);
             Room Entry = generateRoom(x, y, world, p[i]);
             if(Entry != null){
-                plist.add(Entry.leftUp);
+                plist.add(Entry.leftDown.shift(0, 1));
             }
         }
         generateGallery(world, plist, SEED);

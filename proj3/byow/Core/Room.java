@@ -1,15 +1,11 @@
 package byow.Core;
 
 public class Room {
-    public Position leftUp;
-    public Position rightDown;
+    public Position leftDown;
+    public Position rightUp;
 
-    public Room(Position leftUp, Position rightDown) {
-        this.leftUp = leftUp;
-        this.rightDown = rightDown;
-    }
-
-    public int getsize() {
-        return (rightDown.x - leftUp.x) * (rightDown.y - leftUp.y);
+    public Room(Position leftDown, Position rightUp) {
+        this.leftDown = leftDown;
+        this.rightUp = rightUp;
     }
 }
