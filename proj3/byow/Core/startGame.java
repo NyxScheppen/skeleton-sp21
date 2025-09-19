@@ -10,8 +10,6 @@ public class startGame {
 
     public static character playgame(character player, TETile[][] world){
 
-        StdDraw.enableDoubleBuffering();
-
         if(player == null){
             for(int i = 0; i < world.length; i++){
                 for(int j = 0; j < world[0].length; j++){
@@ -62,6 +60,8 @@ public class startGame {
 
     private static void showCharacter(Position p){
         StdDraw.enableDoubleBuffering();
+        Font font = new Font("Monaco", Font.BOLD, 10);
+        StdDraw.setFont(font);
         StdDraw.setPenColor(Color.yellow);
         StdDraw.text(p.x, p.y,"@");
         StdDraw.show();
