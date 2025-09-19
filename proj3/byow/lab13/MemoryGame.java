@@ -31,15 +31,14 @@ public class MemoryGame {
                                                     "go get it!", "Winter is come"};
 
     public static void main(String[] args) {
-        /*
         if (args.length < 1) {
             System.out.println("Please enter a seed");
             return;
         }
 
         long seed = Long.parseLong(args[0]);
-         */
-        MemoryGame game = new MemoryGame(40, 40, 350234);
+
+        MemoryGame game = new MemoryGame(40, 40, seed);
         game.startGame();
     }
 

@@ -20,50 +20,56 @@ public class startGame {
                 }
             }
         }
-        showCharacter(player.position);
+        showCharacter(world, player.position);
 
         while(true){
             if(StdDraw.hasNextKeyTyped()){
                 char c = StdDraw.nextKeyTyped();
+                int x = player.position.x;
+                int y = player.position.y;
                 switch (c){
                     case 'W':
                         player.moveForward("W");
                         if(world[player.position.x][player.position.y] ==Tileset.WALL){
                             player.moveForward("S");
+                            break;
                         }
+                        world[x][y] = Tileset.FLOOR;
                         break;
                     case 'A':
                         player.moveForward("A");
-                        if(world[player.position.x][player.position.y] ==Tileset.WALL){
+                        if(world[player.position.x][player.position.y] == Tileset.WALL){
                             player.moveForward("D");
+                            break;
                         }
+                        world[x][y] = Tileset.FLOOR;
                         break;
                     case 'S':
                         player.moveForward("S");
                         if(world[player.position.x][player.position.y] ==Tileset.WALL){
                             player.moveForward("A");
+                            break;
                         }
+                        world[x][y] = Tileset.FLOOR;
                         break;
                     case 'D':
                         player.moveForward("D");
                         if(world[player.position.x][player.position.y] ==Tileset.WALL){
                             player.moveForward("A");
+                            break;
                         }
+                        world[x][y] = Tileset.FLOOR;
                         break;
                     case'Q':
                         return player;
                 }
+                showCharacter(world, player.position);
             }
-            showCharacter(player.position);
         }
     }
 
-    private static void showCharacter(Position p){
-        StdDraw.enableDoubleBuffering();
-        Font font = new Font("Monaco", Font.BOLD, 10);
-        StdDraw.setFont(font);
-        StdDraw.setPenColor(Color.yellow);
-        StdDraw.text(p.x, p.y,"@");
-        StdDraw.show();
+    private static void showCharacter(TETile[][] world, Position p){
+        world[p.x][p.y] =  Tileset.AVATAR;
+        Engine.ter.renderFrame(world);
     }
 }

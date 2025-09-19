@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Random;
 
 public class Engine {
-    TERenderer ter = new TERenderer();
+    public static TERenderer ter = new TERenderer();
     public static final int WIDTH = 80;
     public static final int HEIGHT = 40;
     public static File f;
@@ -41,8 +41,7 @@ public class Engine {
                 char c = StdDraw.nextKeyTyped();
                 if(c == 'N'){
                     StdDraw.clear(Color.black);
-                    String s = "please type in random seed";
-                    showCharacter(s, new Position(WIDTH/2, HEIGHT/2), 30);
+                    showCharacter("please type in random seed", new Position(WIDTH/2, HEIGHT/2), 30);
                 }
                 if(c == 'L'){
                     Game game = loadGame();
@@ -54,6 +53,7 @@ public class Engine {
                     i++;
                 }
                 if(c == 'S'){
+                    StdDraw.clear();
                     goWorld(finalWorldFrame, key);
                     play(finalWorldFrame, null);
                 }
@@ -78,7 +78,6 @@ public class Engine {
     }
 
     private void play(TETile[][] world, character player){
-        ter.renderFrame(world);
         character c = startGame.playgame(player, world);
         saveGame(world, c);
     }
@@ -94,13 +93,6 @@ public class Engine {
     }
 
     private void printFrontYard(){
-        StdDraw.setCanvasSize(this.WIDTH * 16, this.HEIGHT * 16);
-        Font font = new Font("Monaco", Font.BOLD, 30);
-        StdDraw.setFont(font);
-        StdDraw.setXscale(0, this.WIDTH);
-        StdDraw.setYscale(0, this.HEIGHT);
-        StdDraw.clear(Color.BLACK);
-        StdDraw.enableDoubleBuffering();
         showCharacter("WELCOME TO CS61B'S WORLD!", new Position(WIDTH/2, 30), 20);
         showCharacter("New Game(N)", new Position(WIDTH/2,20), 15);
         showCharacter("Load Game(L)", new Position(WIDTH/2, 15), 15);

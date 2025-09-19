@@ -13,19 +13,18 @@ public class character {
     }
 
     public void moveForward(String direction){
-        StdDraw.clear();
         switch(direction){
             case "W":
-                position.shift(0, 1);
+                position = position.shift(0, 1);
                 break;
             case "D":
-                position.shift(1, 0);
+                position = position.shift(1, 0);
                 break;
             case "S":
-                position.shift(0, -1);
+                position = position.shift(0, -1);
                 break;
             case "A":
-                position.shift(-1, 0);
+                position = position.shift(-1, 0);
                 break;
         }
     }
